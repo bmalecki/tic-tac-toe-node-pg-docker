@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
-import Battleship from './Battleship';
+import Game from './Game';
 import '../styles/App.css';
 
 export default () => (
   <div className="App">
     <Route exact path="/" component={Home} />
     <Route path="/home" component={Home} />
-    <Route path="/battleship/:roomId" component={Battleship} />
+    <Route path="/game/:roomId" component={Game} />
   </div>
 );

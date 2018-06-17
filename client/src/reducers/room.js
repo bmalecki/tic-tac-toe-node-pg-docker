@@ -8,10 +8,10 @@ export default (state = defaultState, action) => {
         ...state,
         gameStatus: action.payload.status
       };
-    case 'INSERTING':
+    case 'WAIT_FOR_OPPONENT':
       return {
         ...state,
-        insert: { now: true, type: action.payload.type }
+        message: 'Wait for opponent'
       };
     default:
       return state;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { startGame } from '../../actions/battle';
+import { startGame } from '../../actions/game';
 import '../../styles/Button.css';
 
 const NewGameButton = ({ text, onClick, roomId }) => (

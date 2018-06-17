@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import BeforeStartScreen from './battleshipScreens/BeforeStartScreen';
-import GameScreen from './battleshipScreens/GameScreen';
-import InsertShipsScreen from './battleshipScreens/InsertShipsScreen';
+import BeforeStartScreen from './gameScreens/BeforeStartScreen';
+import GameScreen from './gameScreens/GameScreen';
 
-const Battleship = ({ room, match }) => {
+const Game = ({ room, match }) => {
   if (room !== undefined) {
     return (
       <div>
-        <h1>Battleship</h1>
+        <h1>Tic tac toe</h1>
         <BeforeStartScreen {...room} />
-        <InsertShipsScreen {...room} />
         <GameScreen {...room} />
       </div>
     );
@@ -20,7 +18,7 @@ const Battleship = ({ room, match }) => {
   return (<h1> This room does NOT exist </h1>);
 };
 
-Battleship.propTypes = {
+Game.propTypes = {
   match: PropTypes.object.isRequired,
   room: PropTypes.object.isRequired
 };
@@ -29,4 +27,4 @@ const mapStateToProps = (state, props) => ({
   room: state.rooms[props.match.params.roomId]
 });
 
-export default connect(mapStateToProps)(Battleship);
+export default connect(mapStateToProps)(Game);

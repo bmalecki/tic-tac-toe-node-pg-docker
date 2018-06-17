@@ -6,21 +6,14 @@ const defaultState = {
     roomId: 'a1',
     player1: 'id1',
     player2: 'id2',
-    gameStatus: GAME_STATUS.BEFORE_START,
-    insert: { now: false, type: null }
-  },
-  a2: {
-    roomId: 'a2',
-    player1: 'player3',
-    player2: 'player4',
-    gameStatus: GAME_STATUS.BEFORE_START,
-    insert: { now: false, type: null }
+    gameStatus: GAME_STATUS.PLAYING,
+    message: ''
   }
 };
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'INSERTING':
+    case 'WAIT_FOR_OPPONENT':
     case 'CHANGE_GAME_STATUS':
       return {
         ...state,

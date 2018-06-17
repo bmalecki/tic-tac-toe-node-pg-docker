@@ -1,11 +1,7 @@
 const FIELD_STATUS = Object.freeze({
-  SHOOTED: 'shooted',
-  UNSHOOTED: 'unshooted',
-  INSERTING: 'inserting',
-  SINKED: 'sinked',
-  MISSED: 'missed',
-  FREE: 'free',
-  BUSY: 'busy'
+  O: 'O',
+  X: 'X',
+  FREE: 'FREE'
 });
 
 export default FIELD_STATUS;

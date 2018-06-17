@@ -9,7 +9,7 @@ import '../styles/Navbar.css';
 const Navbar = ({ rooms }) => {
   const Rooms = _(rooms).keys().map(key => rooms[key])
     .map(room =>
-      <li key={room.roomId}><Link to={`/battleship/${room.roomId}`} >Battleship {room.roomId}</Link></li>)
+      <li key={room.roomId}><Link to={`/game/${room.roomId}`} >Room {room.roomId}</Link></li>)
     .value();
 
   return (

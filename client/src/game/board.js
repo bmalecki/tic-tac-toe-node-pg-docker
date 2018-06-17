@@ -36,20 +36,11 @@ function setUnitColor({
     String.fromCharCode('A'.charCodeAt(0) + i) + (k + 1);
 
   switch (fields[fieldCoordinate]) {
-    case FIELD_STATUS.UNSHOOTED:
+    case FIELD_STATUS.X:
       ctx.fillStyle = 'blue';
       break;
-    case FIELD_STATUS.SHOOTED:
+    case FIELD_STATUS.O:
       ctx.fillStyle = 'red';
-      break;
-    case FIELD_STATUS.SINKED:
-      ctx.fillStyle = 'black';
-      break;
-    case FIELD_STATUS.MISSED:
-      ctx.fillStyle = 'gray';
-      break;
-    case FIELD_STATUS.INSERTING:
-      ctx.fillStyle = 'green';
       break;
     case FIELD_STATUS.FREE: default:
       ctx.fillStyle = 'white';
