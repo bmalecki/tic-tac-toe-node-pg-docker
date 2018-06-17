@@ -1,0 +1,33 @@
+version: '3'
+services:
+  web:    
+    depends_on:
+      - pg
+    networks:
+      - front
+      - back
+    environment:
+      # pg env varible
+      PGUSER: node
+      PGPASSWORD: pass
+      PGDATABASE: app
+      PGPORT: 5432
+    volumes:
+      - ./client/build/:/usr/static
+
+  pg:
+    build: ./pg
+    networks:
+      - back
+    environment:
+      POSTGRES_USER: node
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: app
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge
