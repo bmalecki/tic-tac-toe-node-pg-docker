@@ -6,12 +6,13 @@ export default (state = defaultState, action) => {
     case 'CHANGE_GAME_STATUS':
       return {
         ...state,
-        gameStatus: action.payload.status
+        gameStatus: action.payload.status,
+        message: ''
       };
-    case 'WAIT_FOR_OPPONENT':
+    case 'SHOW_MESSAGE':
       return {
         ...state,
-        message: 'Wait for opponent'
+        message: action.payload.message
       };
     default:
       return state;

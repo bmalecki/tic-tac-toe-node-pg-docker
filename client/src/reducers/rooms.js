@@ -4,8 +4,15 @@ import room from './room';
 const defaultState = {
   a1: {
     roomId: 'a1',
-    player1: 'id1',
-    player2: 'id2',
+    player1: 'player1',
+    player2: 'player2',
+    gameStatus: GAME_STATUS.NEW,
+    message: ''
+  },
+  a2: {
+    roomId: 'a2',
+    player1: 'player3',
+    player2: 'player4',
     gameStatus: GAME_STATUS.PLAYING,
     message: ''
   }
@@ -13,7 +20,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'WAIT_FOR_OPPONENT':
+    case 'SHOW_MESSAGE':
     case 'CHANGE_GAME_STATUS':
       return {
         ...state,

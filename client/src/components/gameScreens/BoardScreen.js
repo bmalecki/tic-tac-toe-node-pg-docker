@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import board from '../../game/board';
 
-class Battlefield extends React.Component {
+class BoardScreen extends React.Component {
   state = {
     width: 350,
     height: 350
@@ -42,14 +42,14 @@ class Battlefield extends React.Component {
   }
 }
 
-Battlefield.propTypes = {
+BoardScreen.propTypes = {
   text: PropTypes.string.isRequired,
-  playerId: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired,
   fields: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = (state, props) => ({
-  fields: state.fields[props.playerId] || {}
+  fields: state.fields[props.roomId] || {}
 });
 
-export default connect(mapStateToProps)(Battlefield);
+export default connect(mapStateToProps)(BoardScreen);

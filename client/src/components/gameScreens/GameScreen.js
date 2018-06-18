@@ -10,7 +10,7 @@ const GameScreen = (room) => {
     || (room.gameStatus === GAME_STATUS.WAITING))
     && (
       <div>
-        <Board text={`Room: ${room.roomId}`} playerId={room.player1} />
+        <Board text={`Room: ${room.roomId}`} roomId={room.roomId} />
         <BoardMessage text={room.message} />
         {GameButtons(room)}
       </div>

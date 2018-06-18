@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import BeforeStartScreen from './gameScreens/BeforeStartScreen';
+import NewGameScreen from './gameScreens/NewGameScreen';
 import GameScreen from './gameScreens/GameScreen';
 
 const Game = ({ room, match }) => {
@@ -9,7 +9,7 @@ const Game = ({ room, match }) => {
     return (
       <div>
         <h1>Tic tac toe</h1>
-        <BeforeStartScreen {...room} />
+        <NewGameScreen {...room} />
         <GameScreen {...room} />
       </div>
     );

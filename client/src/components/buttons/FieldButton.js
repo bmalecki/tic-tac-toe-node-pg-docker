@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { wait, move } from '../../actions/game';
+import { showMessage, move } from '../../actions/game';
 import '../../styles/Button.css';
 import GAME_STATUS from '../../constants/gameStatus';
 
@@ -19,10 +19,10 @@ FieldButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const getClickAction = ({ text, playerId, gameStatus, roomId }) => {
+const getClickAction = ({ text, gameStatus, roomId }) => {
   switch (gameStatus) {
-    case GAME_STATUS.WAITING: return wait(roomId);
-    case GAME_STATUS.PLAYING: return move(text, playerId);
+    case GAME_STATUS.WAITING: return showMessage(roomId, 'Waiting for opponent');
+    case GAME_STATUS.PLAYING: return move(roomId, text);
     default: throw new Error('Unknow game status');
   }
 };
