@@ -1,5 +1,4 @@
 import GAME_STATUS from '../constants/gameStatus';
-import FIELD_STATUS from '../constants/fieldStatus';
 
 
 export const showMessage = (roomId, message) => ({
@@ -10,21 +9,21 @@ export const showMessage = (roomId, message) => ({
   }
 });
 
-const movePlayer = (roomId, id) => ({
+const movePlayer = (roomId, playerId, id) => ({
   type: 'CHANGE_FIELD_STATUS',
   payload: {
     id,
     roomId,
-    type: FIELD_STATUS.X
+    playerId
   }
 });
 
 
-export const move = (roomId, id) => (dispatch, getState) => {
+export const move = (roomId, playerId, fieldId) => (dispatch, getState) => {
   const fields = getState().fields[roomId];
 
-  if (!fields || (fields && !fields[id])) {
-    dispatch(movePlayer(roomId, id));
+  if (!fields || (fields && !fields[fieldId])) {
+    dispatch(movePlayer(roomId, playerId, fieldId));
     dispatch(showMessage(roomId, ''));
   } else {
     dispatch(showMessage(roomId, 'Field is not empty'));

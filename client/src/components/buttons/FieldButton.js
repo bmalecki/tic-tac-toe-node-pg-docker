@@ -5,24 +5,24 @@ import { showMessage, move } from '../../actions/game';
 import '../../styles/Button.css';
 import GAME_STATUS from '../../constants/gameStatus';
 
-const FieldButton = ({ text, onClick, playerId, gameStatus, roomId }) => (
-  <button className="battle" onClick={() => onClick({ text, playerId, gameStatus, roomId })}>
-    {text}
+const FieldButton = ({ fieldId, onClick, playerId, gameStatus, roomId }) => (
+  <button className="battle" onClick={() => onClick({ fieldId, playerId, gameStatus, roomId })}>
+    {fieldId}
   </button>
 );
 
 FieldButton.propTypes = {
-  text: PropTypes.string.isRequired,
+  fieldId: PropTypes.string.isRequired,
   gameStatus: PropTypes.string.isRequired,
   playerId: PropTypes.string.isRequired,
   roomId: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-const getClickAction = ({ text, gameStatus, roomId }) => {
+const getClickAction = ({ fieldId, gameStatus, roomId, playerId }) => {
   switch (gameStatus) {
     case GAME_STATUS.WAITING: return showMessage(roomId, 'Waiting for opponent');
-    case GAME_STATUS.PLAYING: return move(roomId, text);
+    case GAME_STATUS.PLAYING: return move(roomId, playerId, fieldId);
     default: throw new Error('Unknow game status');
   }
 };

@@ -1,8 +1,8 @@
 
 const defaultState = {
   a2: {
-    B2: 'O',
-    B3: 'O',
+    B2: 'player4',
+    B3: 'player3',
   }
 };
 
@@ -13,7 +13,7 @@ export default (state = defaultState, action) => {
         ...state,
         [action.payload.roomId]: {
           ...state[action.payload.roomId],
-          [action.payload.id]: action.payload.type
+          [action.payload.id]: action.payload.playerId
         }
       };
     default:
