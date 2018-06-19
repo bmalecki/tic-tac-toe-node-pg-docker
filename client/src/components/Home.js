@@ -3,9 +3,12 @@ import '../styles/App.css';
 import logo from '../logo.svg';
 import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';
+import Login from './Login';
+import Lorem from './Lorem';
 
 export default () => (
   <div>
+    <Login />
     <ExampleStyledComponent />
     <div className="Home">
       <img src={logo} className="logo" alt="logo" />
@@ -14,5 +17,6 @@ export default () => (
         To get started, edit <code>src/App.js</code> and save to reload.
       </p>
     </div>
+    <Lorem />
   </div>
 );

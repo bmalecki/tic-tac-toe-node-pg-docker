@@ -1,8 +1,10 @@
-CREATE TABLE films (
-    code        char(5) CONSTRAINT firstkey PRIMARY KEY,
-    title       varchar(40) NOT NULL,
-    did         integer NOT NULL,
-    date_prod   date,
-    kind        varchar(10),
-    len         interval hour to minute
+CREATE TABLE IF NOT EXISTS users (
+    username     varchar(40) CONSTRAINT firstkey PRIMARY KEY,
+    passwd       varchar(40) NOT NULL
 );
+
+INSERT INTO users VALUES
+    ('first', 'qwert');
+
+INSERT INTO users VALUES
+    ('asdf', 'asdf');

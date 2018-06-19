@@ -12,24 +12,31 @@ pool.on('error', (err, client) => {
   console.error('idle client error', client, err.message, err.stack);
 });
 
-function info() {
+async function doQuery(query, parms) {
   return new Promise((res, rej) => {
     pool.connect((err, client, done) => {
       if (err) {
         rej(new Error(`error fetching client from pool ${err}`));
       }
-      client.query('SELECT $1::int AS number', ['5'], (queryErr, result) => {
-        // call `done()` to release the client back to the pool
+      client.query(query, parms, (queryErr, result) => {
         done();
-
         if (err) {
           rej(new Error(`error running query ${queryErr}`));
         }
-        console.log(result.rows[0].number);
-        res(`Result from pg ${result.rows[0].number}`);
+        res(result);
       });
     });
   });
 }
 
-module.exports = { info };
+async function info() {
+  return doQuery('SELECT $1::int AS number', ['5'])
+    .then(result => result.rows[0].number);
+}
+
+function getUser(username) {
+  return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
+    .then(result => result.rows[0].string);
+}
+
+module.exports = { info, getUser };

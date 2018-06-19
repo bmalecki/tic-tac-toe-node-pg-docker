@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router();
+const pool = require('./pool');
 
 const db = {
   tobi: { name: 'tobi', species: 'ferret' },
@@ -22,8 +23,23 @@ const pets = {
   },
 };
 
+const users = {
+  get: async (ctx, next) => {
+    try {
+      ctx.body = await pool.getUser('first');
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 401;
+      ctx.body = 'unauthorized';
+    } finally {
+      await next();
+    }
+  },
+};
+
 router
   .get('/pets', pets.list)
-  .get('/pets/:name', pets.show);
+  .get('/pets/:name', pets.show)
+  .get('/users', users.get);
 
 module.exports = router;
