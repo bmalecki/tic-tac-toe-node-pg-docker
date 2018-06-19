@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:10-slim
 ENV NODE_ENV=production
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
