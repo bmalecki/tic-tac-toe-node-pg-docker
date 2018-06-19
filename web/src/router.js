@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 
 const router = new Router();
-const pool = require('./pool');
+const usersDb = require('./pool');
 
 const db = {
   tobi: { name: 'tobi', species: 'ferret' },
@@ -24,9 +24,20 @@ const pets = {
 };
 
 const users = {
+  getFirst: async (ctx, next) => {
+    try {
+      ctx.body = await usersDb.getUser('first');
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 401;
+      ctx.body = 'unauthorized';
+    } finally {
+      await next();
+    }
+  },
   get: async (ctx, next) => {
     try {
-      ctx.body = await pool.getUser('first');
+      ctx.body = await usersDb.getUser(ctx.params.username);
     } catch (e) {
       console.log(e);
       ctx.response.status = 401;
@@ -40,6 +51,7 @@ const users = {
 router
   .get('/pets', pets.list)
   .get('/pets/:name', pets.show)
-  .get('/users', users.get);
+  .get('/users', users.getFirst)
+  .get('/users/:username', users.get);
 
 module.exports = router;
