@@ -3,25 +3,6 @@ const Router = require('koa-router');
 const router = new Router();
 const usersDb = require('./pool');
 
-const db = {
-  tobi: { name: 'tobi', species: 'ferret' },
-  loki: { name: 'loki', species: 'ferret' },
-  jane: { name: 'jane', species: 'ferret' },
-};
-
-const pets = {
-  list: async (ctx, next) => {
-    const names = Object.keys(db);
-    ctx.body = `pets: ${names.join(', ')}\n`;
-    await next();
-  },
-
-  show: (ctx) => {
-    const pet = db[ctx.params.name];
-    if (!pet) ctx.throw('cannot find that pet', 404);
-    ctx.body = `${pet.name} is a ${pet.species}`;
-  },
-};
 
 const users = {
   getFirst: async (ctx, next) => {
@@ -46,12 +27,14 @@ const users = {
       await next();
     }
   },
+  login: async (ctx, next) => {
+    console.log(ctx);
+  },
 };
 
 router
-  .get('/pets', pets.list)
-  .get('/pets/:name', pets.show)
   .get('/users', users.getFirst)
-  .get('/users/:username', users.get);
+  .get('/users/:username', users.get)
+  .post('users/login', users.login);
 
 module.exports = router;
