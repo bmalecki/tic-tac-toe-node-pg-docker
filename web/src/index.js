@@ -1,16 +1,26 @@
 const Koa = require('koa');
 const logger = require('koa-logger');
 const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 
-const router = require('./router');
+const jwt = require('./middlewares/jwt');
+const routerProtected = require('./middlewares/router-protected');
+const routerPublic = require('./middlewares/router-public');
+const errorPages = require('./middlewares/error-pages');
+
 
 const app = new Koa();
 
 app
   .use(logger())
   .use(serve('/usr/static'))
-  .use(router.routes())
-  .use(router.allowedMethods());
+  .use(errorPages)
+  .use(bodyParser())
+  .use(routerPublic.routes())
+  .use(routerPublic.allowedMethods())
+  .use(jwt)
+  .use(routerProtected.routes())
+  .use(routerProtected.allowedMethods());
 
 
 app.listen(8080, () => {

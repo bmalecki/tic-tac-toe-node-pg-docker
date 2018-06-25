@@ -34,9 +34,9 @@ async function info() {
     .then(result => result.rows[0].number);
 }
 
-function getUser(username) {
+function getUserPassword(username) {
   return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
     .then(result => result.rows[0].string);
 }
 
-module.exports = { info, getUser };
+module.exports = { info, getUserPassword };
