@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { loginFailed, updateToken } from '../actions/token';
+
 import '../styles/Login.css';
 
 const URI = 'http://localhost:8080/login';
@@ -24,7 +28,15 @@ class Login extends React.Component {
         'content-type': 'application/json'
       },
       method: 'POST',
-    });
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+        throw new Error();
+      })
+      .then(body => this.props.onChangeToken(body.token))
+      .catch(() => this.props.onLoginFailed());
   }
 
   render() {
@@ -64,4 +76,9 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  onChangeToken: token => dispatch(updateToken(token)),
+  onLoginFailed: () => dispatch(loginFailed())
+});
+
+export default connect(null, mapDispatchToProps)(Login);
