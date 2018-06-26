@@ -29,14 +29,9 @@ async function doQuery(query, parms) {
   });
 }
 
-async function info() {
-  return doQuery('SELECT $1::int AS number', ['5'])
-    .then(result => result.rows[0].number);
-}
-
 function getUserPassword(username) {
   return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
     .then(result => result.rows[0].string);
 }
 
-module.exports = { info, getUserPassword };
+module.exports = { getUserPassword };

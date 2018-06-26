@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const usersDb = require('../db');
 const jwt = require('jsonwebtoken');
+const secret = require('../secret');
 
 const router = new Router();
-
 
 const users = {
   login: async (ctx) => {
@@ -13,8 +13,8 @@ const users = {
       ctx.status = 200;
       ctx.body = {
         token: jwt.sign({
-          username, message: 'OK',
-        }, 'secret'),
+          username,
+        }, secret, { expiresIn: '3h' }),
       };
     } else {
       ctx.status = 401;
@@ -26,6 +26,6 @@ const users = {
 };
 
 router
-  .post('/users/login', users.login);
+  .post('/login', users.login);
 
 module.exports = router;

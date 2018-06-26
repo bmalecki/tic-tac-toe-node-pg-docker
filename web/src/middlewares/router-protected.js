@@ -18,8 +18,8 @@ const users = {
   },
   get: async (ctx, next) => {
     try {
-      // ctx.body = await usersDb.getUser(ctx.params.username);
-      ctx.body = ctx.state.user;
+      ctx.body = await usersDb.getUserPassword(ctx.params.username);
+      ctx.body = ctx.state;
     } catch (e) {
       console.log(e);
       ctx.response.status = 401;
@@ -33,5 +33,6 @@ const users = {
 router
   .get('/users', users.getFirst)
   .get('/users/:username', users.get);
+
 
 module.exports = router;
