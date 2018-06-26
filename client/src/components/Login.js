@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Login.css';
 
-const URI = 'http://localhost:8080/users/login';
+const URI = 'http://localhost:8080/login';
 
 class Login extends React.Component {
   constructor(props) {

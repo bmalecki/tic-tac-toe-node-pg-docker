@@ -56,5 +56,5 @@ Folder structure:
 
 Run *app-up.sh* script
         
-
+docker-compose exec --user postgres pg  psql -U node -d app
 

@@ -9,19 +9,25 @@ const users = {
   login: async (ctx) => {
     const { username, password } = ctx.request.body;
 
-    if (await usersDb.getUserPassword(username) === password) {
-      ctx.status = 200;
-      ctx.body = {
-        token: jwt.sign({
-          username,
-        }, secret, { expiresIn: '3h' }),
-      };
-    } else {
-      ctx.status = 401;
-      ctx.body = {
-        message: 'Authentication failed',
-      };
-    }
+    await usersDb.getUserPassword(username)
+      .then((userPassword) => {
+        if (userPassword === password) {
+          ctx.status = 200;
+          ctx.body = {
+            token: jwt.sign({
+              username,
+            }, secret, { expiresIn: '3h' }),
+          };
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        ctx.status = 401;
+        ctx.body = {
+          message: 'Authentication failed',
+        };
+      });
   },
 };
 
