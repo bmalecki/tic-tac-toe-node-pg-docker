@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { loginSuccessed } from '../actions/token';
 
-import '../styles/Login.css';
+import '../styles/Form.css';
 
 const URI = 'http://localhost:8080/login';
 
