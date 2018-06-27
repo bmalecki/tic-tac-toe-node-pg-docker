@@ -6,5 +6,6 @@ const isRevoked = (ctx, decodedToken, token) => Promise.resolve(false);
 
 module.exports = koaJwt({
   secret,
+  cookie: 'token',
   isRevoked,
 }).unless({ method: 'OPTIONS' });
