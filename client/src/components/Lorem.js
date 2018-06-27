@@ -1,4 +1,5 @@
-  import React from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 const lorem = `What is Lorem Ipsum?
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -15,31 +16,39 @@ There are many variations of passages of Lorem Ipsum available, but the majority
 End
 `;
 
-export default class extends React.Component {
+class Lorem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { a: 'unknow', timeoutId: null };
+    this.state = { a: 'unknow' };
   }
 
-  componentDidMount() {
-    fetch('http://localhost:8080/asdsad')
-      .then(res => res.text())
-      .then((data) => {
-        const id = setTimeout(() => this.setState({ ...this.state, a: data }), 200);
-        this.setState({ ...this.state, timeoutId: id });
-      });
-  }
 
-  componentWillUnmount() {
-    clearTimeout(this.state.timeoutId);
+  componentDidUpdate(prevProps) {
+    if (this.props.authHeader !== prevProps.authHeader) {
+      fetch('http://localhost:8080/users/asdf', {
+        headers: {
+          Authorization: this.props.authHeader
+        }
+      })
+        .then(res => res.text())
+        .then((data) => {
+          this.setState({ ...this.state, a: data });
+        });
+    }
   }
 
   render() {
     return (
       <div>
-        <h1> Seconds: {this.state.a}</h1>
+        <h1> Text: {this.state.a}</h1>
         {lorem}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  authHeader: state.authorization.header
+});
+
+export default connect(mapStateToProps)(Lorem);
