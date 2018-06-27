@@ -1,14 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-
 import { loginSuccessed } from '../actions/token';
 
 import '../styles/Login.css';
 
 const URI = 'http://localhost:8080/login';
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,6 +16,39 @@ class Login extends React.Component {
   state = {
     username: '',
     password: ''
+  }
+
+  getRegisterForm() {
+    return (
+      <div className="login">
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="username">
+              Username:
+              <input
+                id="username"
+                type="text"
+                value={this.state.username}
+                onChange={event => this.setState({ username: event.target.value })}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="password">
+              Password:
+              <input
+                id="password"
+                type="password"
+                value={this.state.password}
+                onChange={event => this.setState({ password: event.target.value })}
+              />
+            </label>
+          </div>
+
+          <input type="submit" value="Register now" />
+        </form>
+      </div>
+    );
   }
 
   handleSubmit(event) {
@@ -43,44 +75,26 @@ class Login extends React.Component {
   }
 
   render() {
-    return this.props.show && (
-      <div className="login">
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                id="username"
-                type="text"
-                value={this.state.username}
-                onChange={event => this.setState({ username: event.target.value })}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                id="password"
-                type="password"
-                value={this.state.password}
-                onChange={event => this.setState({ password: event.target.value })}
-              />
-            </label>
-          </div>
+    if (this.props.showForm) {
+      return this.getRegisterForm();
+    }
 
-          <input type="submit" value="Submit" />
-          <div>
-            You have NOT got account yet. <Link to="/register" className="active">Register Now</Link>
-          </div>
-        </form>
+    return (
+      <div>
+        You have account
       </div>
     );
   }
 }
 
+Register.propTypes = {
+  showForm: PropTypes.bool.isRequired,
+  onLoginSuccessed: PropTypes.func.isRequired,
+};
+
+
 const mapStateToProps = state => ({
-  show: state.authorization.token === null
+  showForm: state.authorization.token === null
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -88,4 +102,5 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
