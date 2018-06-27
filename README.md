@@ -34,7 +34,9 @@ In order to hot reaload deployment run:
 
 ### B. pg module ###
 
-To do
+Run psql 
+
+        docker-compose exec --user postgres pg  psql -U node -d app
 
 
 ### C. Web module ###
@@ -55,6 +57,4 @@ Folder structure:
 ## 4. How to deploy production containers ##
 
 Run *app-up.sh* script
-        
-docker-compose exec --user postgres pg  psql -U node -d app
 
