@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loginSuccessed, updateToken } from '../actions/token';
+import { loginSuccessed } from '../actions/token';
 
 import '../styles/Login.css';
 
@@ -42,7 +42,7 @@ class Login extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.show && (
       <div className="login">
         <form onSubmit={this.handleSubmit}>
           <div>
@@ -78,11 +78,13 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: (status, token) => {
-    dispatch(loginSuccessed(status));
-    dispatch(updateToken(token));
-  }
+const mapStateToProps = state => ({
+  show: state.authorization.token === null
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = dispatch => ({
+  onLoginSuccessed: (status, token) => dispatch(loginSuccessed(status, token))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

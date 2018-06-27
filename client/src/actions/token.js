@@ -1,6 +1,6 @@
 export const updateToken = token => (dispatch, getState) => {
   if (token !== null) {
-    window.localStorage.token = token;
+    window.localStorage.setItem('token', token);
     dispatch({
       type: 'UPDATE_TOKEN',
       payload: {
@@ -8,14 +8,21 @@ export const updateToken = token => (dispatch, getState) => {
       }
     });
   } else {
-    delete window.localStorage.token;
+    window.localStorage.removeItem('token');
   }
 };
 
-export const loginSuccessed = status => ({
-  type: 'LOGIN_SUCCESSED',
-  payload: {
-    status
-  }
-});
+export const loginSuccessed = (status, token) => (dispatch, getState) => {
+  dispatch({
+    type: 'LOGIN_SUCCESSED',
+    payload: {
+      status
+    }
+  });
+  dispatch(updateToken(token));
+};
+
+export const logout = () => (dispatch, getState) => {
+  dispatch(loginSuccessed(false, null));
+};
 
