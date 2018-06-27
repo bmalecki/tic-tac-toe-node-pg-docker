@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loginFailed, updateToken } from '../actions/token';
+import { loginSuccessed, updateToken } from '../actions/token';
 
 import '../styles/Login.css';
 
@@ -35,8 +35,10 @@ class Login extends React.Component {
         }
         throw new Error();
       })
-      .then(body => this.props.onChangeToken(body.token))
-      .catch(() => this.props.onLoginFailed());
+      .then((body) => {
+        this.props.onLoginSuccessed(true, body.token);
+      })
+      .catch(() => this.props.onLoginSuccessed(false, null));
   }
 
   render() {
@@ -77,8 +79,10 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onChangeToken: token => dispatch(updateToken(token)),
-  onLoginFailed: () => dispatch(loginFailed())
+  onLoginSuccessed: (status, token) => {
+    dispatch(loginSuccessed(status));
+    dispatch(updateToken(token));
+  }
 });
 
 export default connect(null, mapDispatchToProps)(Login);

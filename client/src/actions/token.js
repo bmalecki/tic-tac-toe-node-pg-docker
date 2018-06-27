@@ -1,11 +1,21 @@
-export const updateToken = token => ({
-  type: 'UPDATE_TOKEN',
-  payload: {
-    token
+export const updateToken = token => (dispatch, getState) => {
+  if (token !== null) {
+    window.localStorage.token = token;
+    dispatch({
+      type: 'UPDATE_TOKEN',
+      payload: {
+        token
+      }
+    });
+  } else {
+    delete window.localStorage.token;
   }
-});
+};
 
-export const loginFailed = () => ({
-  type: 'LOGIN_FAILED'
+export const loginSuccessed = status => ({
+  type: 'LOGIN_SUCCESSED',
+  payload: {
+    status
+  }
 });
 

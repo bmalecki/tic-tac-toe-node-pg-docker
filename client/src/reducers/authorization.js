@@ -1,6 +1,6 @@
 
 const defaultState = {
-  header: '',
+  token: window.localStorage.token,
   failed: false
 };
 
@@ -9,14 +9,13 @@ export default (state = defaultState, action) => {
     case 'UPDATE_TOKEN':
       return {
         ...state,
-        header: `Bearer ${action.payload.token}`,
-        failed: false
+        token: action.payload.token,
       };
-    case 'LOGIN_FAILED':
+    case 'LOGIN_SUCCESSED':
       return {
         ...state,
-        header: '',
-        failed: true
+        token: '',
+        login: action.payload.status
       };
     default:
       return state;

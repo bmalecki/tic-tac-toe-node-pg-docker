@@ -22,19 +22,26 @@ class Lorem extends React.Component {
     this.state = { a: 'unknow' };
   }
 
+  componentDidMount() {
+    this.getText();
+  }
 
   componentDidUpdate(prevProps) {
-    if (this.props.authHeader !== prevProps.authHeader) {
-      fetch('http://localhost:8080/users/asdf', {
-        headers: {
-          Authorization: this.props.authHeader
-        }
-      })
-        .then(res => res.text())
-        .then((data) => {
-          this.setState({ ...this.state, a: data });
-        });
+    if (this.props.token !== prevProps.token) {
+      this.getText();
     }
+  }
+
+  getText() {
+    fetch('http://localhost:8080/users/asdf', {
+      headers: {
+        Authorization: `Bearer ${this.props.token}`
+      }
+    })
+      .then(res => res.text())
+      .then((data) => {
+        this.setState({ ...this.state, a: data });
+      });
   }
 
   render() {
@@ -48,7 +55,7 @@ class Lorem extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  authHeader: state.authorization.header
+  token: state.authorization.token
 });
 
 export default connect(mapStateToProps)(Lorem);
