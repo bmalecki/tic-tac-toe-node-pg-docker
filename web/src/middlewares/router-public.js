@@ -13,10 +13,11 @@ const users = {
       .then((userPassword) => {
         if (userPassword === password) {
           ctx.status = 200;
-          ctx.body = { message: 'OK' };
-          ctx.cookies.set('token', jwt.sign({
-            username,
-          }, secret, { expiresIn: '3h' }));
+          ctx.body = {
+            token: jwt.sign({
+              username,
+            }, secret, { expiresIn: '3h' }),
+          };
         } else {
           throw new Error();
         }
