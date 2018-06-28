@@ -50,8 +50,17 @@ const exportFunc = {
     doQuery('SELECT roomid, o, x FROM rooms WHERE roomid=$1', [roomid])
       .then(result => result.rows[0]),
 
+  getUserRooms: username => doQuery(`
+      WITH user_rooms AS (
+        SELECT roomid, o, x FROM rooms WHERE o=$1 OR x=$1)
+      SELECT roomid,
+        CASE 
+          WHEN x=$1 THEN 'x'
+          WHEN o=$1 THEN 'o'
+        END as sign
+      FROM user_rooms
+    `, [username])
+    .then(result => result.rows),
 };
-
-
 
 module.exports = exportFunc;

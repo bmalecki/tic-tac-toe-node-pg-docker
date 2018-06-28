@@ -28,6 +28,17 @@ const users = {
       await next();
     }
   },
+  getUserRooms: async (ctx, next) => {
+    try {
+      ctx.body = await usersDb.getUserRooms(ctx.params.username);
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 401;
+      ctx.body = 'unauthorized';
+    } finally {
+      await next();
+    }
+  },
 };
 
 const rooms = {
@@ -64,7 +75,7 @@ const rooms = {
 router
   .get('/users', users.getFirst)
   .get('/users/:username', users.get)
-  .get('/users/:username/rooms', users.get)
+  .get('/users/:username/rooms', users.getUserRooms)
   .get('/rooms', rooms.getAll)
   .get('/rooms/:roomid', rooms.getRoom);
 
