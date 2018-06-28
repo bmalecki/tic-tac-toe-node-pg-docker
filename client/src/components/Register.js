@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginSuccessed } from '../actions/token';
 
 import '../styles/Form.css';
 
-const URI = 'http://localhost:8080/login';
+const URI = 'http://localhost:8080/users';
 
 class Register extends React.Component {
   constructor(props) {
@@ -15,10 +16,13 @@ class Register extends React.Component {
 
   state = {
     username: '',
-    password: ''
+    password: '',
+    registerErrorMessage: null
   }
 
   getRegisterForm() {
+    const errorMessage = this.state.registerErrorMessage !== null && <h3 className="error">User exists</h3>;
+
     return (
       <div className="login">
         <form onSubmit={this.handleSubmit}>
@@ -47,6 +51,7 @@ class Register extends React.Component {
 
           <input type="submit" value="Register now" />
         </form>
+        {errorMessage}
       </div>
     );
   }
@@ -63,15 +68,19 @@ class Register extends React.Component {
       method: 'POST',
     })
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           return res.json();
         }
-        throw new Error();
+
+        throw new Error('Error');
       })
       .then((body) => {
         this.props.onLoginSuccessed(true, body.token);
       })
-      .catch(() => this.props.onLoginSuccessed(false, null));
+      .catch((message) => {
+        this.setState({ registerErrorMessage: message });
+        this.props.onLoginSuccessed(false, null);
+      });
   }
 
   render() {
@@ -80,9 +89,7 @@ class Register extends React.Component {
     }
 
     return (
-      <div>
-        You have account
-      </div>
+      <Redirect to="/home" />
     );
   }
 }

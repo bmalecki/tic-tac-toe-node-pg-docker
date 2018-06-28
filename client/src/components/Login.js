@@ -37,6 +37,7 @@ class Login extends React.Component {
         throw new Error();
       })
       .then((body) => {
+        this.setState({ password: '' });
         this.props.onLoginSuccessed(true, body.token);
       })
       .catch(() => this.props.onLoginSuccessed(false, null));

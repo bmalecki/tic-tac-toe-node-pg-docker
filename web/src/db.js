@@ -34,4 +34,10 @@ function getUserPassword(username) {
     .then(result => result.rows[0].string);
 }
 
-module.exports = { getUserPassword };
+function addUser(username, password) {
+  return doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
+    .then(result => result !== undefined && result.rowCount === 1);
+}
+
+
+module.exports = { addUser, getUserPassword };

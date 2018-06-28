@@ -31,12 +31,15 @@ In order to hot reaload deployment run:
 
     npm start 
 
+Debug
+
+    google-chrome --remote-debugging-port=9222
 
 ### B. pg module ###
 
 Run psql 
 
-        docker-compose exec --user postgres pg  psql -U node -d app
+    docker-compose exec --user postgres pg  psql -U node -d app
 
 
 ### C. Web module ###

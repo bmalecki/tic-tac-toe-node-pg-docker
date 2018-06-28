@@ -3,8 +3,6 @@ CREATE TABLE users (
     passwd       varchar(40) NOT NULL
 );
 
-INSERT INTO users VALUES
-    ('first', 'qwert');
-
-INSERT INTO users VALUES
-    ('asdf', 'asdf');
+INSERT INTO users VALUES 
+    ('first', 'qwert'),
+    ('admin', 'admin');
