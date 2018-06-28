@@ -30,25 +30,26 @@ async function doQuery(query, parms) {
 }
 
 const exportFunc = {
-  getUserPassword: (username) => {
-    return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
-      .then(result => result.rows[0].string);
-  },
+  getUserPassword: username =>
+    doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
+      .then(result => result.rows[0].string),
 
-  addUser: (username, password) => {
-    return doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
-      .then(result => result !== undefined && result.rowCount === 1);
-  },
+  addUser: (username, password) =>
+    doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
+      .then(result => result !== undefined && result.rowCount === 1),
 
-  getAllRooms: () => {
-    return doQuery('SELECT roomid, o, x FROM rooms')
-      .then(result => result.rows);
-  },
+  getAllRooms: () =>
+    doQuery('SELECT roomid, o, x FROM rooms')
+      .then(result => result.rows),
 
-  getAvailableRooms: () => {
-    return doQuery('SELECT roomid, o, x FROM rooms where o IS NULL OR x IS NULL')
-      .then(result => result.rows);
-  },
+  getAvailableRooms: () =>
+    doQuery('SELECT roomid, o, x FROM rooms WHERE o IS NULL OR x IS NULL')
+      .then(result => result.rows),
+
+  getRoom: roomid =>
+    doQuery('SELECT roomid, o, x FROM rooms WHERE roomid=$1', [roomid])
+      .then(result => result.rows[0]),
+
 };
 
 

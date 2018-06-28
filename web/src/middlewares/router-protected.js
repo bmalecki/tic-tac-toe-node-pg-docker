@@ -31,7 +31,7 @@ const users = {
 };
 
 const rooms = {
-  get: async (ctx, next) => {
+  getAll: async (ctx, next) => {
     try {
       if (Object.keys(ctx.query).length === 0) {
         ctx.body = await usersDb.getAllRooms();
@@ -49,6 +49,15 @@ const rooms = {
       await next();
     }
   },
+  getRoom: async (ctx, next) => {
+    try {
+      ctx.body = await usersDb.getRoom(ctx.params.roomid);
+    } catch (e) {
+      ctx.response.status = 204;
+    } finally {
+      await next();
+    }
+  },
 };
 
 
@@ -56,7 +65,8 @@ router
   .get('/users', users.getFirst)
   .get('/users/:username', users.get)
   .get('/users/:username/rooms', users.get)
-  .get('/rooms', rooms.get);
+  .get('/rooms', rooms.getAll)
+  .get('/rooms/:roomid', rooms.getRoom);
 
 
 module.exports = router;
