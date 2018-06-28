@@ -5,8 +5,8 @@
   "main": "./src/index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
-    "start": "node --experimental-modules ./src/index.js",
-    "start-dev": "nodemon --experimental-modules ./src/index.js",
+    "start": "node ./src/index.js",
+    "start-dev": "nodemon --inspect=0.0.0.0:28080 ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bartlomiej Malecki",

@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "request": "attach",
+            "name": "Docker: Attach to Node",
+            "port": 28080,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/web",
+            "remoteRoot": "/usr/src/app",
+            "protocol": "inspector"
+        },
+        {
             "type": "chrome",
             "request": "attach",
             "name": "Attach to Chrome",
@@ -23,13 +33,6 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome build",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Launch Chrome against localhost build",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
         }
