@@ -39,7 +39,7 @@ Debug
 
 Run psql 
 
-    docker-compose exec --user postgres pg  psql -U node -d app
+    docker-compose exec --user postgres pg  psql -U node -d app -f /docker-entrypoint-initdb.d/init.sql
 
 
 ### C. Web module ###
