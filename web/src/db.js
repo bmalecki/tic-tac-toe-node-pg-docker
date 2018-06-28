@@ -29,15 +29,28 @@ async function doQuery(query, parms) {
   });
 }
 
-function getUserPassword(username) {
-  return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
-    .then(result => result.rows[0].string);
-}
+const exportFunc = {
+  getUserPassword: (username) => {
+    return doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
+      .then(result => result.rows[0].string);
+  },
 
-function addUser(username, password) {
-  return doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
-    .then(result => result !== undefined && result.rowCount === 1);
-}
+  addUser: (username, password) => {
+    return doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
+      .then(result => result !== undefined && result.rowCount === 1);
+  },
+
+  getAllRooms: () => {
+    return doQuery('SELECT roomid, o, x FROM rooms')
+      .then(result => result.rows);
+  },
+
+  getAvailableRooms: () => {
+    return doQuery('SELECT roomid, o, x FROM rooms where o IS NULL OR x IS NULL')
+      .then(result => result.rows);
+  },
+};
 
 
-module.exports = { addUser, getUserPassword };
+
+module.exports = exportFunc;

@@ -6,7 +6,8 @@ const secret = require('../secret');
 const router = new Router();
 
 const users = {
-  login: async (ctx) => {
+  login: async (ctx, next) => {
+    next();
     const { username, password } = ctx.request.body;
 
     await usersDb.getUserPassword(username)
@@ -29,7 +30,8 @@ const users = {
         };
       });
   },
-  add: async (ctx) => {
+  add: async (ctx, next) => {
+    next();
     const { username, password } = ctx.request.body;
 
     await usersDb.addUser(username, password)
