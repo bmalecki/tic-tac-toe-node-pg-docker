@@ -10,23 +10,25 @@ import { logout } from '../actions/token';
 const Navbar = ({ rooms, showLogout, onLogut }) => {
   const Rooms = _(rooms).keys().map(key => rooms[key])
     .map(room =>
-      <li key={room.roomId}><Link to={`/game/${room.roomId}`} >Room {room.roomId}</Link></li>)
+      <Link to={`/game/${room.roomId}`} key={room.roomId}><button>Room {room.roomId}</button></Link>)
     .value();
 
   return (
     <header className="nav-bar">
-      <ul>
-        <li><Link to="/home" className="active">Home</Link></li>
+      <div className="items-container">
+        <Link to="/home" className="active"><button>Home</button></Link>
         {Rooms}
         {showLogout &&
-          <li onClick={() => onLogut()}><Link to="/home" className="active">Logout</Link></li>}
-      </ul>
+          <Link to="/home" className="logout"><button onClick={() => onLogut()}>Logout</button></Link>}
+      </div>
     </header>
   );
 };
 
 Navbar.propTypes = {
-  rooms: PropTypes.object.isRequired
+  rooms: PropTypes.object.isRequired,
+  showLogout: PropTypes.bool.isRequired,
+  onLogut: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
