@@ -34,6 +34,10 @@ const exportFunc = {
     doQuery('SELECT username from users where username LIKE $1', [username])
       .then(result => result.rows[0]),
 
+  getAllUsers: () =>
+    doQuery('SELECT username from users')
+      .then(result => result.rows),
+
   getUserPassword: username =>
     doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
       .then(result => result.rows[0].string),
@@ -53,6 +57,22 @@ const exportFunc = {
   addUser: (username, password) =>
     doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
       .then(result => result !== undefined && result.rowCount === 1),
+
+
+  addRoom: (username, sign) =>
+    (() => {
+      if (sign === 'o' || sign === 'x') {
+        const createQuery = s => `
+        INSERT INTO rooms (${s}) 
+          SELECT CAST($1 AS VARCHAR) WHERE EXISTS 
+            (SELECT * FROM users WHERE username=$1)`;
+
+        if (sign === 'o') return doQuery(createQuery('o'), [username]);
+        else if (sign === 'x') return doQuery(createQuery('x'), [username]);
+      }
+
+      throw new Error('Forbiden sign');
+    })().then(result => result !== undefined && result.rowCount === 1),
 
   getAllRooms: () =>
     doQuery('SELECT roomid, o, x FROM rooms')

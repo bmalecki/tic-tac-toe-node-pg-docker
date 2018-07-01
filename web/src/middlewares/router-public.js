@@ -29,7 +29,7 @@ const users = {
         };
       });
   },
-  add: async (ctx, next) => {
+  addUser: async (ctx, next) => {
     next();
     const { username, password } = ctx.request.body;
 
@@ -58,6 +58,6 @@ const users = {
 
 router
   .post('/login', users.login)
-  .post('/users', users.add);
+  .post('/users', users.addUser);
 
 module.exports = router;

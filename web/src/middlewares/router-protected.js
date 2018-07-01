@@ -5,9 +5,9 @@ const usersDb = require('../db');
 
 
 const users = {
-  getFirst: async (ctx, next) => {
+  getAllUsers: async (ctx, next) => {
     try {
-      //      ctx.body = await usersDb.getUser('first');
+      ctx.body = await usersDb.getAllUsers();
     } catch (e) {
       console.log(e);
       ctx.response.status = 401;
@@ -40,6 +40,33 @@ const users = {
 };
 
 const rooms = {
+  add: async (ctx, next) => {
+    try {
+      const { username, sign } = ctx.request.body;
+
+      if (username !== ctx.state.user.username) {
+        ctx.status = 400;
+        return;
+      }
+
+      await usersDb.addRoom(username, sign)
+        .then((result) => {
+          if (result) {
+            ctx.status = 201;
+          } else {
+            throw new Error();
+          }
+        });
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 500;
+      ctx.body = 'Internal error';
+    } finally {
+      await next();
+    }
+  },
+
+
   getAll: async (ctx, next) => {
     try {
       if (Object.keys(ctx.query).length === 0) {
@@ -71,10 +98,11 @@ const rooms = {
 
 
 router
-  .get('/users', users.getFirst)
+  .get('/users', users.getAllUsers)
   .get('/users/:username', users.getUser)
   .get('/users/:username/rooms', users.getUserRooms)
   .get('/rooms', rooms.getAll)
+  .post('/rooms', rooms.add)
   .get('/rooms/:roomid', rooms.getRoom);
 
 
