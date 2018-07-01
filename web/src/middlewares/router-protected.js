@@ -26,6 +26,32 @@ const users = {
       await next();
     }
   },
+  deleteUser: async (ctx, next) => {
+    try {
+      const { username } = ctx.params;
+
+      if (username !== ctx.state.user.username) {
+        ctx.response.status = 401;
+        ctx.body = 'unauthorized';
+        return;
+      }
+
+      const rowCount = await usersDb.removeUser(username);
+
+      if (rowCount === 0) {
+        ctx.response.status = 404;
+      } else if (rowCount === 1) {
+        ctx.response.status = 200;
+      } else {
+        throw new Error();
+      }
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 500;
+    } finally {
+      await next();
+    }
+  },
   getUserRooms: async (ctx, next) => {
     try {
       ctx.body = await usersDb.getUserRooms(ctx.params.username);
@@ -128,6 +154,7 @@ const rooms = {
 router
   .get('/users', users.getAllUsers)
   .get('/users/:username', users.getUser)
+  .delete('/users/:username', users.deleteUser)
   .get('/users/:username/rooms', users.getUserRooms)
   .get('/rooms', rooms.getAll)
   .post('/rooms', rooms.add)

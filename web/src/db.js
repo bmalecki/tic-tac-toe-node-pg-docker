@@ -58,6 +58,10 @@ const exportFunc = {
     doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
       .then(result => result !== undefined && result.rowCount === 1),
 
+  removeUser: username =>
+    doQuery('DELETE FROM users WHERE username LIKE $1', [username])
+      .then(result => result.rowCount),
+
 
   addRoom: (username, sign) =>
     (() => {
