@@ -10,6 +10,7 @@ const errorPages = require('./middlewares/error-pages');
 
 
 const app = new Koa();
+const http = require('http').Server(app.callback());
 
 app
   .use(logger())
@@ -23,6 +24,6 @@ app
   .use(routerProtected.allowedMethods());
 
 
-app.listen(8080, () => {
-  console.info('App listen on 8080');
+http.listen(8080, () => {
+  console.log('App listen on *:8080');
 });
