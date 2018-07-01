@@ -82,13 +82,13 @@ const rooms = {
           if (result) {
             ctx.status = 201;
           } else {
-            throw new Error();
+            throw new Error('Wrong params');
           }
         });
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
       ctx.response.status = 500;
-      ctx.body = 'Internal error';
+      ctx.body = `Internal error: ${e.message}`;
     } finally {
       await next();
     }
