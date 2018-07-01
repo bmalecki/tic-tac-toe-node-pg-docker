@@ -30,9 +30,25 @@ async function doQuery(query, parms) {
 }
 
 const exportFunc = {
+  getUser: username =>
+    doQuery('SELECT username from users where username LIKE $1', [username])
+      .then(result => result.rows[0]),
+
   getUserPassword: username =>
     doQuery('SELECT passwd AS string from users where username LIKE $1', [username])
       .then(result => result.rows[0].string),
+
+  getUserRooms: username => doQuery(`
+      WITH user_rooms AS (
+        SELECT roomid, o, x FROM rooms WHERE o=$1 OR x=$1)
+      SELECT roomid,
+        CASE 
+          WHEN x=$1 THEN 'x'
+          WHEN o=$1 THEN 'o'
+        END as sign
+      FROM user_rooms
+    `, [username])
+    .then(result => result.rows),
 
   addUser: (username, password) =>
     doQuery('INSERT INTO users VALUES ($1, $2)', [username, password])
@@ -49,18 +65,6 @@ const exportFunc = {
   getRoom: roomid =>
     doQuery('SELECT roomid, o, x FROM rooms WHERE roomid=$1', [roomid])
       .then(result => result.rows[0]),
-
-  getUserRooms: username => doQuery(`
-      WITH user_rooms AS (
-        SELECT roomid, o, x FROM rooms WHERE o=$1 OR x=$1)
-      SELECT roomid,
-        CASE 
-          WHEN x=$1 THEN 'x'
-          WHEN o=$1 THEN 'o'
-        END as sign
-      FROM user_rooms
-    `, [username])
-    .then(result => result.rows),
 };
 
 module.exports = exportFunc;

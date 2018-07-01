@@ -16,14 +16,12 @@ const users = {
       await next();
     }
   },
-  get: async (ctx, next) => {
+  getUser: async (ctx, next) => {
     try {
-      ctx.body = await usersDb.getUserPassword(ctx.params.username);
-      ctx.body = ctx.state;
+      ctx.body = await usersDb.getUser(ctx.params.username);
     } catch (e) {
       console.log(e);
-      ctx.response.status = 401;
-      ctx.body = 'unauthorized';
+      ctx.response.status = 500;
     } finally {
       await next();
     }
@@ -74,7 +72,7 @@ const rooms = {
 
 router
   .get('/users', users.getFirst)
-  .get('/users/:username', users.get)
+  .get('/users/:username', users.getUser)
   .get('/users/:username/rooms', users.getUserRooms)
   .get('/rooms', rooms.getAll)
   .get('/rooms/:roomid', rooms.getRoom);
