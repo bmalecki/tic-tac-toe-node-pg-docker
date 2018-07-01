@@ -45,11 +45,39 @@ const rooms = {
       const { username, sign } = ctx.request.body;
 
       if (username !== ctx.state.user.username) {
-        ctx.status = 400;
+        ctx.response.status = 401;
+        ctx.body = 'unauthorized';
         return;
       }
 
       await usersDb.addRoom(username, sign)
+        .then((result) => {
+          if (result) {
+            ctx.status = 201;
+          } else {
+            throw new Error();
+          }
+        });
+    } catch (e) {
+      console.log(e);
+      ctx.response.status = 500;
+      ctx.body = 'Internal error';
+    } finally {
+      await next();
+    }
+  },
+
+  addUser: async (ctx, next) => {
+    try {
+      const { username, sign, roomid } = ctx.request.body;
+
+      if (username !== ctx.state.user.username) {
+        ctx.response.status = 401;
+        ctx.body = 'unauthorized';
+        return;
+      }
+
+      await usersDb.addUserToRoom(username, sign, roomid)
         .then((result) => {
           if (result) {
             ctx.status = 201;
@@ -103,6 +131,7 @@ router
   .get('/users/:username/rooms', users.getUserRooms)
   .get('/rooms', rooms.getAll)
   .post('/rooms', rooms.add)
+  .put('/rooms', rooms.addUser)
   .get('/rooms/:roomid', rooms.getRoom);
 
 

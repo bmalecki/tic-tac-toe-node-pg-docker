@@ -74,6 +74,25 @@ const exportFunc = {
       throw new Error('Forbiden sign');
     })().then(result => result !== undefined && result.rowCount === 1),
 
+  addUserToRoom: (username, sign, roomid) =>
+    (() => {
+      if (sign === 'o' || sign === 'x') {
+        const createQuery = (s1, s2) => doQuery(
+          `UPDATE rooms SET ${s1} = $1
+            WHERE roomid = $2 
+            AND ${s2} NOT LIKE $1 
+            AND ${s1} IS NULL
+            AND EXISTS (SELECT * FROM users where username=$1)`,
+          [username, roomid],
+        );
+
+        if (sign === 'o') return createQuery('o', 'x');
+        else if (sign === 'x') return createQuery('x', 'o');
+      }
+
+      throw new Error('Forbiden sign');
+    })().then(result => result !== undefined && result.rowCount === 1),
+
   getAllRooms: () =>
     doQuery('SELECT roomid, o, x FROM rooms')
       .then(result => result.rows),
