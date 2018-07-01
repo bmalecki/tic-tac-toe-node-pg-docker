@@ -11,7 +11,7 @@ This is a Docker Compose web application. It uses Node and Postegres.
 
 ## 3. How to develop ## 
 
-1. Install node 8.11.1 locally (I recommend using [nvm](https://github.com/creationix/nvm))
+1. Install node 10.4.1 locally (I recommend using [nvm](https://github.com/creationix/nvm))
 2. Go to **web** folder and run
     
         npm install
