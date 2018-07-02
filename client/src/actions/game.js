@@ -1,5 +1,9 @@
 import GAME_STATUS from '../constants/gameStatus';
 
+export const joinRoom = rooId => ({
+
+});
+
 
 export const showMessage = (roomId, message) => ({
   type: 'SHOW_MESSAGE',

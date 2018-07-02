@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loginSuccessed } from '../actions/token';
@@ -7,6 +8,27 @@ import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';
 import Login from './Login';
 import AvailableRooms from './AvailableRooms';
+
+const URI = 'http://localhost:8080/rooms';
+
+const onAddRoom = sign => fetch(URI, {
+  body: JSON.stringify({
+    sign
+  }),
+  cache: 'no-cache',
+  headers: {
+    'content-type': 'application/json',
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+  },
+  method: 'POST',
+})
+  .then((res) => {
+    if (res.status === 201) {
+      return res.text();
+    }
+    throw new Error();
+  });
+
 
 const Home = (props) => {
   const LogoutUser = props.userLogout && (
@@ -21,7 +43,8 @@ const Home = (props) => {
       <h2>Join to room</h2>
       <AvailableRooms />
       <h2>Add new room </h2>
-      <button>Add new room</button>
+      <button onClick={() => onAddRoom('x')}>Add new room AS X</button>
+      <button onClick={() => onAddRoom('o')}>Add new room AS O</button>
 
     </div>
   );
@@ -33,6 +56,12 @@ const Home = (props) => {
     </div>
   );
 };
+
+Home.propTypes = {
+  onLoginSuccessed: PropTypes.func.isRequired,
+  userLogout: PropTypes.bool.isRequired,
+};
+
 
 const mapStateToProps = state => ({
   userLogout: state.authorization.token === null

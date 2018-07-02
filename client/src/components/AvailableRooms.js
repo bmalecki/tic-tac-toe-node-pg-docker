@@ -1,11 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import '../styles/Navbar.css';
-import { logout } from '../actions/token';
 
+const URI = 'http://localhost:8080/rooms'
+
+const onJoinRoom = (roomid, sign) => {
+  return fetch(URI, {
+    body: JSON.stringify({
+      sign,
+      roomid
+    }),
+    cache: 'no-cache',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`
+    },
+    method: 'PUT',
+  })
+    .then((res) => {
+      if (res.status === 201) {
+        return res.text();
+      }
+      throw new Error();
+    });
+};
 
 class AvailableRooms extends React.Component {
   state = {
@@ -14,6 +33,11 @@ class AvailableRooms extends React.Component {
 
   componentDidMount() {
     this.fetchRooms();
+    this.id = setInterval(() => this.fetchRooms(), 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.id);
   }
 
   fetchRooms() {
@@ -33,7 +57,9 @@ class AvailableRooms extends React.Component {
       opponent &&
       <div className="join-room">
         Join to {opponent} in room <b>{roomid} as {sign}</b>
-        <button>JOIN</button>
+        <button onClick={() => onJoinRoom(roomid, sign).then(() => this.fetchRooms())} >
+          JOIN
+        </button>
       </div>;
 
     const Rooms = _(this.state.availableRooms)
@@ -53,14 +79,4 @@ class AvailableRooms extends React.Component {
 AvailableRooms.propTypes = {
 };
 
-const mapStateToProps = state => ({
-  rooms: state.rooms,
-  showLogout: state.authorization.token !== null
-});
-
-
-const mapDispatchToProps = dispatch => ({
-  onLogut: () => dispatch(logout())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AvailableRooms);
+export default AvailableRooms;

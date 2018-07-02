@@ -68,13 +68,8 @@ const users = {
 const rooms = {
   add: async (ctx, next) => {
     try {
-      const { username, sign } = ctx.request.body;
-
-      if (username !== ctx.state.user.username) {
-        ctx.response.status = 401;
-        ctx.body = 'unauthorized';
-        return;
-      }
+      const { sign } = ctx.request.body;
+      const { username } = ctx.state.user;
 
       await usersDb.addRoom(username, sign)
         .then((result) => {
@@ -95,13 +90,8 @@ const rooms = {
 
   addUser: async (ctx, next) => {
     try {
-      const { username, sign, roomid } = ctx.request.body;
-
-      if (username !== ctx.state.user.username) {
-        ctx.response.status = 401;
-        ctx.body = 'unauthorized';
-        return;
-      }
+      const { sign, roomid } = ctx.request.body;
+      const { username } = ctx.state.user;
 
       await usersDb.addUserToRoom(username, sign, roomid)
         .then((result) => {
