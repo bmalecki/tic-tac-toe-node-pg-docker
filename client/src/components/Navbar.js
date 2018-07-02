@@ -7,7 +7,7 @@ import '../styles/Navbar.css';
 import { logout } from '../actions/token';
 
 
-const Navbar = ({ rooms, showLogout, onLogut }) => {
+const Navbar = ({ rooms, showLogout, onLogut, username }) => {
   const Rooms = _(rooms).keys().map(key => rooms[key])
     .map(room =>
       <Link to={`/game/${room.roomId}`} key={room.roomId}><button>Room {room.roomId}</button></Link>)
@@ -19,7 +19,7 @@ const Navbar = ({ rooms, showLogout, onLogut }) => {
         <Link to="/home" className="active"><button>Home</button></Link>
         {Rooms}
         {showLogout &&
-          <Link to="/home" className="logout"><button onClick={() => onLogut()}>Logout</button></Link>}
+          <Link to="/home" className="logout"><button onClick={() => onLogut()}>Logout {username}</button></Link>}
       </div>
     </header>
   );
@@ -28,12 +28,14 @@ const Navbar = ({ rooms, showLogout, onLogut }) => {
 Navbar.propTypes = {
   rooms: PropTypes.object.isRequired,
   showLogout: PropTypes.bool.isRequired,
-  onLogut: PropTypes.func.isRequired
+  onLogut: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   rooms: state.rooms,
-  showLogout: state.authorization.token !== null
+  showLogout: state.authorization.token !== null,
+  username: state.authorization.username
 });
 
 
