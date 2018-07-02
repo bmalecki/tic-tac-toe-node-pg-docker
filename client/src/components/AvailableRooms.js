@@ -17,14 +17,13 @@ class AvailableRooms extends React.Component {
   }
 
   fetchRooms() {
-    fetch('http://localhost:8080/rooms?free', {
+    fetch('http://localhost:8080/rooms?available', {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('token')}`
       }
     })
       .then(res => res.json())
       .then((data) => {
-        console.log(data);
         this.setState({ availableRooms: data });
       });
   }
