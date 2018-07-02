@@ -1,7 +1,9 @@
 
 const defaultState = {
   token: window.localStorage.token || null,
-  failed: false
+  failed: false,
+  username: false,
+  status: false
 };
 
 export default (state = defaultState, action) => {
@@ -15,7 +17,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         token: null,
-        login: action.payload.status
+        ...action.payload
       };
     default:
       return state;

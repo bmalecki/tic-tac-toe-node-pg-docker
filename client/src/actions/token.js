@@ -12,17 +12,22 @@ export const updateToken = token => (dispatch, getState) => {
   }
 };
 
-export const loginSuccessed = (status, token) => (dispatch, getState) => {
+export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
   dispatch({
     type: 'LOGIN_SUCCESSED',
     payload: {
-      status
+      ...props
     }
   });
   dispatch(updateToken(token));
 };
 
 export const logout = () => (dispatch, getState) => {
-  dispatch(loginSuccessed(false, null));
+  dispatch(loginSuccessed({
+    status: false,
+    token: null,
+    username: null,
+    failed: false
+  }));
 };
 

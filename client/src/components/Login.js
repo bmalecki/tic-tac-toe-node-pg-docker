@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 import '../styles/Form.css';
@@ -36,9 +37,14 @@ class Login extends React.Component {
       })
       .then((body) => {
         this.setState({ password: '' });
-        this.props.onLoginSuccessed(true, body.token);
+        this.props.onLoginSuccessed({ status: true, failed: false, ...body });
       })
-      .catch(() => this.props.onLoginSuccessed(false, null));
+      .catch(() => this.props.onLoginSuccessed({
+        status: false,
+        failed: true,
+        token: null,
+        username: null
+      }));
   }
 
   render() {
@@ -73,9 +79,17 @@ class Login extends React.Component {
             You have NOT got account yet. <Link to="/register" className="active">Register Now</Link>
           </div>
         </form>
+        {this.props.failed && <div className="failed-login">Failed login</div>}
+
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  onLoginSuccessed: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  failed: PropTypes.bool.isRequired,
+};
 
 export default Login;

@@ -33,7 +33,7 @@ const onAddRoom = sign => fetch(URI, {
 const Home = (props) => {
   const LogoutUser = props.userLogout && (
     <div className="logout-user">
-      <Login onLoginSuccessed={props.onLoginSuccessed} show={props.userLogout} />
+      <Login onLoginSuccessed={props.onLoginSuccessed} show={props.userLogout} failed={props.failed} />
       <ExampleStyledComponent />
     </div>
   );
@@ -60,15 +60,17 @@ const Home = (props) => {
 Home.propTypes = {
   onLoginSuccessed: PropTypes.func.isRequired,
   userLogout: PropTypes.bool.isRequired,
+  failed: PropTypes.bool.isRequired,
 };
 
 
 const mapStateToProps = state => ({
-  userLogout: state.authorization.token === null
+  userLogout: state.authorization.token === null,
+  failed: state.authorization.failed
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: (status, token) => dispatch(loginSuccessed(status, token))
+  onLoginSuccessed: props => dispatch(loginSuccessed(props))
 
 });
 

@@ -14,6 +14,7 @@ const users = {
         if (userPassword === password) {
           ctx.status = 200;
           ctx.body = {
+            username,
             token: jwt.sign({
               username,
             }, secret, { expiresIn: '3h' }),
