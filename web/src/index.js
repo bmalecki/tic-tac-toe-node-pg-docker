@@ -2,6 +2,7 @@ const Koa = require('koa');
 const logger = require('koa-logger');
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
+const cors = require('koa-cors');
 
 const jwt = require('./middlewares/jwt');
 const routerProtected = require('./middlewares/router-protected');
@@ -11,8 +12,10 @@ const errorPages = require('./middlewares/error-pages');
 
 const app = new Koa();
 const http = require('http').Server(app.callback());
+const io = require('socket.io')(http);
 
 app
+  .use(cors())
   .use(logger())
   .use(serve('/usr/static'))
   .use(errorPages)
@@ -23,6 +26,10 @@ app
   .use(routerProtected.routes())
   .use(routerProtected.allowedMethods());
 
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
 
 http.listen(8080, () => {
   console.log('App listen on *:8080');
