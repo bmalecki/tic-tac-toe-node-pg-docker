@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { loginSuccessed } from '../actions/token';
 
 import '../styles/Form.css';
 
@@ -80,13 +78,4 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  show: state.authorization.token === null
-});
-
-const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: (status, token) => dispatch(loginSuccessed(status, token))
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

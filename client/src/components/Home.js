@@ -1,22 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { loginSuccessed } from '../actions/token';
 import '../styles/App.css';
-import logo from '../logo.svg';
 import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';
 import Login from './Login';
-import Lorem from './Lorem';
+import AvailableRooms from './AvailableRooms';
 
-export default () => (
-  <div>
-    <Login />
-    <ExampleStyledComponent />
-    <div className="Home">
-      <img src={logo} className="logo" alt="logo" />
-      <h1 className="title">Welcome to React</h1>
-      <p className="intro">
-        To get started, edit <code>src/App.js</code> and save to reload.
-      </p>
+const Home = (props) => {
+  const LogoutUser = props.userLogout && (
+    <div className="logout-user">
+      <Login onLoginSuccessed={props.onLoginSuccessed} show={props.userLogout} />
+      <ExampleStyledComponent />
     </div>
-    <Lorem />
-  </div>
-);
+  );
+
+  const LoginUser = !props.userLogout && (
+    <div className="login-user">
+      <h2>User login</h2>
+      <AvailableRooms />
+    </div>
+  );
+
+  return (
+    <div className="Home">
+      {LogoutUser}
+      {LoginUser}
+    </div>
+  );
+};
+
+const mapStateToProps = state => ({
+  userLogout: state.authorization.token === null
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLoginSuccessed: (status, token) => dispatch(loginSuccessed(status, token))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

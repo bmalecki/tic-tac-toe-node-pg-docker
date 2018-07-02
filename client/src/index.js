@@ -10,12 +10,12 @@ const store = configureStore();
 
 console.log('start socket');
 
-const socket = io('http://localhost:8080');
 
 render(
   <Root store={store} />,
   document.getElementById('root'),
 );
 
-registerServiceWorker();
+const socket = io('http://localhost:8080');
 
+registerServiceWorker();
