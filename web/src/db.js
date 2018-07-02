@@ -101,8 +101,13 @@ const exportFunc = {
     doQuery('SELECT roomid, o, x FROM rooms')
       .then(result => result.rows),
 
-  getAvailableRooms: () =>
+  getFreeRooms: () =>
     doQuery('SELECT roomid, o, x FROM rooms WHERE o IS NULL OR x IS NULL')
+      .then(result => result.rows),
+
+  getAvailableRooms: user =>
+    doQuery(`SELECT roomid, o, x FROM rooms WHERE
+     (o IS NULL AND x NOT LIKE $1) OR (x IS NULL AND o NOT LIKE $1)`, [user])
       .then(result => result.rows),
 
   getRoom: roomid =>

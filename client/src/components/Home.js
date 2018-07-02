@@ -18,8 +18,11 @@ const Home = (props) => {
 
   const LoginUser = !props.userLogout && (
     <div className="login-user">
-      <h2>User login</h2>
+      <h2>Join to room</h2>
       <AvailableRooms />
+      <h2>Add new room </h2>
+      <button>Add new room</button>
+
     </div>
   );
 

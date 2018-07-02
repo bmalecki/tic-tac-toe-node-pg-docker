@@ -125,8 +125,10 @@ const rooms = {
     try {
       if (Object.keys(ctx.query).length === 0) {
         ctx.body = await usersDb.getAllRooms();
-      } else if (ctx.query.free === '') {
-        ctx.body = await usersDb.getAvailableRooms();
+      } else if (ctx.query.free === '' && ctx.query.available !== '') {
+        ctx.body = await usersDb.getFreeRooms();
+      } else if (ctx.query.available === '') {
+        ctx.body = await usersDb.getAvailableRooms(ctx.state.user.username);
       } else {
         ctx.response.status = 400;
         ctx.body = 'Wrong query';
