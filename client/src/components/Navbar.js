@@ -29,7 +29,7 @@ Navbar.propTypes = {
   rooms: PropTypes.object.isRequired,
   showLogout: PropTypes.bool.isRequired,
   onLogut: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string
 };
 
 const mapStateToProps = state => ({

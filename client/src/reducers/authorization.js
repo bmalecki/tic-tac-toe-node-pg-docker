@@ -2,7 +2,7 @@
 const defaultState = {
   token: window.localStorage.token || null,
   failed: false,
-  username: false,
+  username: null,
   status: false
 };
 

@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+
 import '../styles/Navbar.css';
+import { loginSuccessed, logout } from '../actions/token';
+
 
 const URI = 'http://localhost:8080/rooms'
 
@@ -32,23 +36,31 @@ class AvailableRooms extends React.Component {
   }
 
   componentDidMount() {
+    this.isMouunt = true; // antipattern
     this.fetchRooms();
     this.id = setInterval(() => this.fetchRooms(), 5000);
   }
 
   componentWillUnmount() {
+    this.isMount = false;
     clearInterval(this.id);
   }
 
   fetchRooms() {
+    const { logout } = this.props;
+
     fetch('http://localhost:8080/rooms?available', {
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('token')}`
       }
     })
-      .then(res => res.json())
+      .then((res) => {
+        if (res.status === 200) return res.json();
+        throw new Error({ status: res.status });
+      })
+      .catch(() => logout())
       .then((data) => {
-        this.setState({ availableRooms: data });
+        if (this.isMount) this.setState({ availableRooms: data });
       });
   }
 
@@ -77,6 +89,13 @@ class AvailableRooms extends React.Component {
 }
 
 AvailableRooms.propTypes = {
+  logout: PropTypes.func.isRequired
 };
 
-export default AvailableRooms;
+const mapDispatchToProps = dispatch => ({
+  onLoginSuccessed: props => dispatch(loginSuccessed(props)),
+  logout: () => dispatch(logout())
+
+});
+
+export default connect(null, mapDispatchToProps)(AvailableRooms);

@@ -17,7 +17,7 @@ const users = {
             username,
             token: jwt.sign({
               username,
-            }, secret, { expiresIn: '3h' }),
+            }, secret, { expiresIn: '3 h' }),
           };
         } else {
           throw new Error();

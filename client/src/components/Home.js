@@ -9,6 +9,7 @@ import '../styles/Home.css';
 import Login from './Login';
 import AvailableRooms from './AvailableRooms';
 
+
 const URI = 'http://localhost:8080/rooms';
 
 const onAddRoom = sign => fetch(URI, {
@@ -70,8 +71,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: props => dispatch(loginSuccessed(props))
-
+  onLoginSuccessed: props => dispatch(loginSuccessed(props)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
