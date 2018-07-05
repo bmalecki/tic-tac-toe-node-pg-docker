@@ -13,30 +13,27 @@ export const addRoom = ({ roomId, sign, player }) => ({
 });
 
 export const requestAddRoom = sign =>
-  (dispatch, getState) => {
-    return fetch(ROOMS_URI, {
-      body: JSON.stringify({
-        sign
-      }),
-      cache: 'no-cache',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
-      },
-      method: 'POST'
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          return res.json();
-        }
-        throw new Error();
-      })
-      .then(body => dispatch(addRoom({
-        sign,
-        player: getState().authorization.username,
-        roomId: body.roomid,
-      })));
-  };
+  (dispatch, getState) => fetch(ROOMS_URI, {
+    body: JSON.stringify({
+      sign
+    }),
+    cache: 'no-cache',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`
+    },
+    method: 'POST'
+  }).then((res) => {
+    if (res.status === 201) {
+      return res.json();
+    }
+    throw new Error();
+  }).then(body => dispatch(addRoom({
+    sign,
+    player: getState().authorization.username,
+    roomId: body.roomid,
+  })));
+
 
 export const joinRoom = (roomId, sign, player) => ({
   type: 'SHOW_MESSAGE',

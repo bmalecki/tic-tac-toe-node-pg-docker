@@ -27,7 +27,7 @@ export default (state = defaultState, action) => {
       return {
         roomId,
         player1: sign === 'o' ? player : null,
-        player2: sign === 'o' ? player : null,
+        player2: sign === 'x' ? player : null,
         gameStatus: GAME_STATUS.NEW,
         message: '',
       };
