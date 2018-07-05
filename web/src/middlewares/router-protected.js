@@ -73,8 +73,9 @@ const rooms = {
 
       await usersDb.addRoom(username, sign)
         .then((result) => {
-          if (result) {
+          if (result !== undefined && result.rows.length === 1) {
             ctx.status = 201;
+            ctx.body = { ...result.rows[0] };
           } else {
             throw new Error();
           }

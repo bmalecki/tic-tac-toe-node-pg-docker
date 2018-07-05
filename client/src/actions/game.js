@@ -1,7 +1,50 @@
 import GAME_STATUS from '../constants/gameStatus';
 
-export const joinRoom = rooId => ({
+const ROOT_URI = 'http://localhost:8080';
+const ROOMS_URI = `${ROOT_URI}/rooms`;
 
+export const addRoom = ({ roomId, sign, player }) => ({
+  type: 'ADD_ROOM',
+  payload: {
+    roomId,
+    sign,
+    player,
+  }
+});
+
+export const requestAddRoom = sign =>
+  (dispatch, getState) => {
+    return fetch(ROOMS_URI, {
+      body: JSON.stringify({
+        sign
+      }),
+      cache: 'no-cache',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+      },
+      method: 'POST'
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          return res.json();
+        }
+        throw new Error();
+      })
+      .then(body => dispatch(addRoom({
+        sign,
+        player: getState().authorization.username,
+        roomId: body.roomid,
+      })));
+  };
+
+export const joinRoom = (roomId, sign, player) => ({
+  type: 'SHOW_MESSAGE',
+  payload: {
+    roomId,
+    sign,
+    player,
+  }
 });
 
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loginSuccessed } from '../actions/token';
+import { requestAddRoom } from '../actions/game';
 import '../styles/App.css';
 import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';
@@ -44,8 +45,8 @@ const Home = (props) => {
       <h2>Join to room</h2>
       <AvailableRooms />
       <h2>Add new room </h2>
-      <button onClick={() => onAddRoom('x')}>Add new room AS X</button>
-      <button onClick={() => onAddRoom('o')}>Add new room AS O</button>
+      <button onClick={() => props.onAddRoom('x')}>Add new room AS X</button>
+      <button onClick={() => props.onAddRoom('o')}>Add new room AS O</button>
 
     </div>
   );
@@ -62,6 +63,7 @@ Home.propTypes = {
   onLoginSuccessed: PropTypes.func.isRequired,
   userLogout: PropTypes.bool.isRequired,
   failed: PropTypes.bool.isRequired,
+  onAddRoom: PropTypes.func.isRequired,
 };
 
 
@@ -71,7 +73,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: props => dispatch(loginSuccessed(props)),
+  onLoginSuccessed: arg => dispatch(loginSuccessed(arg)),
+  onAddRoom: sign => dispatch(requestAddRoom(sign))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

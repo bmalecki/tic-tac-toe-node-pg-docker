@@ -69,14 +69,15 @@ const exportFunc = {
         const createQuery = s => `
         INSERT INTO rooms (${s}) 
           SELECT CAST($1 AS VARCHAR) WHERE EXISTS 
-            (SELECT * FROM users WHERE username=$1)`;
+            (SELECT * FROM users WHERE username=$1)
+        RETURNING roomid`;
 
         if (sign === 'o') return doQuery(createQuery('o'), [username]);
         else if (sign === 'x') return doQuery(createQuery('x'), [username]);
       }
 
       throw new Error('Forbiden sign');
-    })().then(result => result !== undefined && result.rowCount === 1),
+    })().then(result => result),
 
   addUserToRoom: (username, sign, roomid) =>
     (() => {
