@@ -1,3 +1,5 @@
+import { clearRooms } from './game';
+
 export const updateToken = token => (dispatch, getState) => {
   if (token !== null) {
     window.localStorage.setItem('token', token);
@@ -29,5 +31,6 @@ export const logout = () => (dispatch, getState) => {
     username: null,
     failed: false
   }));
+  dispatch(clearRooms());
 };
 

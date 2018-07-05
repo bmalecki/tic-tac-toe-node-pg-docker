@@ -44,6 +44,10 @@ export const joinRoom = (roomId, sign, player) => ({
   }
 });
 
+export const clearRooms = () => ({
+  type: 'CLEAR_ROOMS',
+  payload: {}
+});
 
 export const showMessage = (roomId, message) => ({
   type: 'SHOW_MESSAGE',
