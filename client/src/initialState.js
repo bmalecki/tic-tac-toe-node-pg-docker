@@ -1,11 +1,12 @@
 import { updateToken } from './actions/token';
-import { getUsername } from './actions/init';
+import { getUsername, getUserRooms } from './actions/init';
 
 export default ({ dispatch }) => {
   const token = window.localStorage.getItem('token');
 
   if (token) {
-    dispatch(getUsername());
+    dispatch(getUsername())
+      .then(username => dispatch(getUserRooms(username)));
   }
 
   // dispatch(updateToken(null));

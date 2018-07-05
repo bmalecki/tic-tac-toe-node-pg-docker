@@ -3,7 +3,14 @@ import GAME_STATUS from '../constants/gameStatus';
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
-export const addRoom = ({ roomId, sign, player }) => ({
+export const addRoom = props => ({
+  type: 'ADD_ROOM',
+  payload: {
+    ...props
+  }
+});
+
+export const addNewRoom = ({ roomId, sign, player, }) => ({
   type: 'ADD_ROOM',
   payload: {
     roomId,
@@ -12,7 +19,7 @@ export const addRoom = ({ roomId, sign, player }) => ({
   }
 });
 
-export const requestAddRoom = sign =>
+export const requestAddNewRoom = sign =>
   (dispatch, getState) => fetch(ROOMS_URI, {
     body: JSON.stringify({
       sign
@@ -28,7 +35,7 @@ export const requestAddRoom = sign =>
       return res.json();
     }
     throw new Error();
-  }).then(body => dispatch(addRoom({
+  }).then(body => dispatch(addNewRoom({
     sign,
     player: getState().authorization.username,
     roomId: body.roomid,

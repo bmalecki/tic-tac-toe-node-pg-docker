@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loginSuccessed } from '../actions/token';
-import { requestAddRoom } from '../actions/game';
+import { requestAddNewRoom } from '../actions/game';
 import '../styles/App.css';
 import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';
@@ -55,7 +55,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onLoginSuccessed: arg => dispatch(loginSuccessed(arg)),
-  onAddRoom: sign => dispatch(requestAddRoom(sign))
+  onAddRoom: sign => dispatch(requestAddNewRoom(sign))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
