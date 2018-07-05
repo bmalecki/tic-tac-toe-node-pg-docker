@@ -13,25 +13,6 @@ import AvailableRooms from './AvailableRooms';
 
 const URI = 'http://localhost:8080/rooms';
 
-const onAddRoom = sign => fetch(URI, {
-  body: JSON.stringify({
-    sign
-  }),
-  cache: 'no-cache',
-  headers: {
-    'content-type': 'application/json',
-    Authorization: `Bearer ${window.localStorage.getItem('token')}`
-  },
-  method: 'POST',
-})
-  .then((res) => {
-    if (res.status === 201) {
-      return res.text();
-    }
-    throw new Error();
-  });
-
-
 const Home = (props) => {
   const LogoutUser = props.userLogout && (
     <div className="logout-user">
