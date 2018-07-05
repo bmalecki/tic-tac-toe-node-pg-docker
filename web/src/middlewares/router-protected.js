@@ -143,6 +143,12 @@ const rooms = {
   },
 };
 
+const user = {
+  getUsername: async (ctx) => {
+    ctx.body = { username: ctx.state.user.username };
+  },
+};
+
 
 router
   .get('/users', users.getAllUsers)
@@ -152,7 +158,8 @@ router
   .get('/rooms', rooms.getAll)
   .post('/rooms', rooms.add)
   .put('/rooms', rooms.addUser)
-  .get('/rooms/:roomid', rooms.getRoom);
+  .get('/rooms/:roomid', rooms.getRoom)
+  .get('/user', user.getUsername);
 
 
 module.exports = router;
