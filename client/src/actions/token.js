@@ -1,4 +1,5 @@
 import { clearRooms } from './game';
+import { getUserRooms } from './init';
 
 export const updateToken = token => (dispatch, getState) => {
   if (token !== null) {
@@ -21,6 +22,7 @@ export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
       ...props
     }
   });
+  dispatch(getUserRooms(props.username));
   dispatch(updateToken(token));
 };
 
