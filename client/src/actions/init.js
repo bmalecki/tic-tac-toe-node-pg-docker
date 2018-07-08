@@ -44,3 +44,10 @@ export const getUserRooms = user => (dispatch, getState) =>
     sign: user.sign
   }))));
 
+export const initSocket = socket => ({
+  type: 'INIT_SOCKET_IO',
+  payload: {
+    socket,
+  }
+});
+
