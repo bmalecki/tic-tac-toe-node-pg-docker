@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { clearRooms } from './game';
-import { getUserRooms, initSocket } from './init';
+import { getUserRooms } from './init';
+import { initSocket } from './socket';
 
 const SOCKET_URI = 'http://localhost:8080';
 

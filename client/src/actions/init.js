@@ -7,7 +7,7 @@ const USER_ROOMS_URI = username => `${ROOT_URI}/users/${username}/rooms`;
 
 const getToken = () => window.localStorage.getItem('token');
 
-export const getUsername = () => (dispatch, getState) => fetch(USER_URI, {
+export const loginAfterRefreshSite = () => (dispatch, getState) => fetch(USER_URI, {
   headers: {
     Authorization: `Bearer ${getToken()}`
   },
@@ -43,11 +43,3 @@ export const getUserRooms = user => (dispatch, getState) =>
     player: user,
     sign: user.sign
   }))));
-
-export const initSocket = socket => ({
-  type: 'IO_INIT',
-  payload: {
-    socket,
-  }
-});
-
