@@ -45,7 +45,7 @@ export const getUserRooms = user => (dispatch, getState) =>
   }))));
 
 export const initSocket = socket => ({
-  type: 'INIT_SOCKET_IO',
+  type: 'IO_INIT',
   payload: {
     socket,
   }

@@ -3,9 +3,9 @@ const defaultState = null;
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'INIT_SOCKET_IO':
+    case 'IO_INIT':
       return action.payload.socket;
-    case 'DESTROY_SOCKET_IO':
+    case 'IO_DESTROY':
       return null;
     default:
       return state;
