@@ -21,8 +21,8 @@ const GameScreen = (room) => {
 
 GameScreen.propTypes = {
   gameStatus: PropTypes.string.isRequired,
-  player1: PropTypes.string.isRequired,
-  player2: PropTypes.string.isRequired,
+  player1: PropTypes.string,
+  player2: PropTypes.string,
   message: PropTypes.string.isRequired
 };
 

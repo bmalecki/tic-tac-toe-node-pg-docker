@@ -5,11 +5,11 @@ const ROOT_URI = 'http://localhost:8080';
 const USER_URI = `${ROOT_URI}/user`;
 const USER_ROOMS_URI = username => `${ROOT_URI}/users/${username}/rooms`;
 
-const token = window.localStorage.getItem('token');
+const getToken = () => window.localStorage.getItem('token');
 
 export const getUsername = () => (dispatch, getState) => fetch(USER_URI, {
   headers: {
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${getToken()}`
   },
   method: 'GET'
 }).then((res) => {
@@ -19,7 +19,7 @@ export const getUsername = () => (dispatch, getState) => fetch(USER_URI, {
   throw new Error();
 }).then((body) => {
   dispatch(loginSuccessed({
-    token,
+    token: getToken(),
     username: body.username,
     status: true,
     failed: false
@@ -27,10 +27,10 @@ export const getUsername = () => (dispatch, getState) => fetch(USER_URI, {
   return body.username;
 });
 
-export const getUserRooms = user => (dispatch, getState) =>
+export const getUserRooms = user => (dispatch, getState) => 
   fetch(USER_ROOMS_URI(user), {
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${getToken()}`
     },
     method: 'GET'
   }).then((res) => {

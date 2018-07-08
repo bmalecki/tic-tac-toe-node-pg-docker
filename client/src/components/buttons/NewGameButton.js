@@ -12,7 +12,7 @@ const NewGameButton = ({ text, onClick, roomId }) => (
 
 NewGameButton.propTypes = {
   text: PropTypes.string.isRequired,
-  roomId: PropTypes.string.isRequired,
+  roomId: PropTypes.any.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

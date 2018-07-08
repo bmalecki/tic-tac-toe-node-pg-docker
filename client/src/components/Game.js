@@ -20,7 +20,7 @@ const Game = ({ room, match }) => {
 
 Game.propTypes = {
   match: PropTypes.object.isRequired,
-  room: PropTypes.object.isRequired
+  room: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => ({

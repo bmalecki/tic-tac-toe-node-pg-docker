@@ -22,8 +22,10 @@ export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
       ...props
     }
   });
-  dispatch(getUserRooms(props.username));
   dispatch(updateToken(token));
+  if (props.username) {
+    dispatch(getUserRooms(props.username));
+  }
 };
 
 export const logout = () => (dispatch, getState) => {

@@ -11,8 +11,6 @@ import Login from './Login';
 import AvailableRooms from './AvailableRooms';
 
 
-const URI = 'http://localhost:8080/rooms';
-
 const Home = (props) => {
   const LogoutUser = props.userLogout && (
     <div className="logout-user">
