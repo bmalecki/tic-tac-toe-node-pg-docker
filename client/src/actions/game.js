@@ -39,7 +39,13 @@ export const requestAddNewRoom = sign =>
     sign,
     player: getState().authorization.username,
     roomId: body.roomid,
-  })));
+  }))).then(() => {
+    const socket = getState().socketio;
+    socket.emit('join_room', 'room1');
+    socket.on('room message', (data) => {
+      console.log(data);
+    })
+  });
 
 
 export const joinRoom = (roomId, sign, player) => ({

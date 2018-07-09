@@ -38,7 +38,7 @@ class AvailableRooms extends React.Component {
   componentDidMount() {
     this.isMouunt = true; // antipattern
     this.fetchRooms();
-    this.id = setInterval(() => this.fetchRooms(), 5000);
+    // this.id = setInterval(() => this.fetchRooms(), 5000);
   }
 
   componentWillUnmount() {
