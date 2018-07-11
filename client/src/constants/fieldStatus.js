@@ -1,6 +1,6 @@
 const FIELD_STATUS = Object.freeze({
-  O: 'O',
-  X: 'X',
+  O: 'o',
+  X: 'x',
   WINNER_O: 'WINNER_O',
   WINNER_X: 'WINNER_X',
   FREE: 'FREE'

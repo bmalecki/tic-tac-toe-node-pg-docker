@@ -35,16 +35,22 @@ export const requestAddNewRoom = sign =>
       return res.json();
     }
     throw new Error();
-  }).then(body => dispatch(addNewRoom({
-    sign,
-    player: getState().authorization.username,
-    roomId: body.roomid,
-  }))).then(() => {
-    const socket = getState().socketio;
-    socket.emit('join_room', 'room1');
+  }).then((body) => {
+    dispatch(addNewRoom({
+      sign,
+      player: getState().authorization.username,
+      roomId: body.roomid,
+    }));
+
+    const { socket } = getState();
+    socket.emit('join_room', {
+      sign,
+      player: getState().authorization.username,
+      roomId: body.roomid,
+    });
     socket.on('room message', (data) => {
       console.log(data);
-    })
+    });
   });
 
 
