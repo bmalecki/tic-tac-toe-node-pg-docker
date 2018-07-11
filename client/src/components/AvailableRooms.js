@@ -4,10 +4,11 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import '../styles/Navbar.css';
-import { loginSuccessed, logout } from '../actions/token';
+import { loginSuccessed } from '../actions/token';
+import { requestAvailable } from '../actions/game';
 
 
-const URI = 'http://localhost:8080/rooms'
+const URI = 'http://localhost:8080/rooms';
 
 const onJoinRoom = (roomid, sign) => {
   return fetch(URI, {
@@ -31,38 +32,24 @@ const onJoinRoom = (roomid, sign) => {
 };
 
 class AvailableRooms extends React.Component {
-  state = {
-    availableRooms: null,
-  }
 
-  componentDidMount() {
-    this.isMouunt = true; // antipattern
-    this.fetchRooms();
-    // this.id = setInterval(() => this.fetchRooms(), 5000);
-  }
+  // fetchRooms() {
+  //   const { logout } = this.props;
 
-  componentWillUnmount() {
-    this.isMount = false;
-    clearInterval(this.id);
-  }
-
-  fetchRooms() {
-    const { logout } = this.props;
-
-    fetch('http://localhost:8080/rooms?available', {
-      headers: {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
-      }
-    })
-      .then((res) => {
-        if (res.status === 200) return res.json();
-        throw new Error({ status: res.status });
-      })
-      .catch(() => logout())
-      .then((data) => {
-        if (this.isMount) this.setState({ availableRooms: data });
-      });
-  }
+  //   fetch('http://localhost:8080/rooms?available', {
+  //     headers: {
+  //       Authorization: `Bearer ${window.localStorage.getItem('token')}`
+  //     }
+  //   })
+  //     .then((res) => {
+  //       if (res.status === 200) return res.json();
+  //       throw new Error({ status: res.status });
+  //     })
+  //     .catch(() => logout())
+  //     .then((data) => {
+  //       if (this.isMount) this.setState({ availableRooms: data });
+  //     });
+  // }
 
   render() {
     const room = (opponent, sign, roomid) =>
@@ -74,7 +61,7 @@ class AvailableRooms extends React.Component {
         </button>
       </div>;
 
-    const Rooms = _(this.state.availableRooms)
+    const Rooms = _(this.props.availableRooms)
       .map(r => (
         <div key={r.roomid}>
           {room(r.x, 'o', r.roomid)}
@@ -89,13 +76,12 @@ class AvailableRooms extends React.Component {
 }
 
 AvailableRooms.propTypes = {
-  logout: PropTypes.func.isRequired
+  availableRooms: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: props => dispatch(loginSuccessed(props)),
-  logout: () => dispatch(logout())
-
+  availableRooms: () => dispatch(requestAvailable()),
+  onLoginSuccessed: props => dispatch(loginSuccessed(props))
 });
 
 export default connect(null, mapDispatchToProps)(AvailableRooms);

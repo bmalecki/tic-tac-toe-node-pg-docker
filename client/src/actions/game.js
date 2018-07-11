@@ -19,40 +19,58 @@ export const addNewRoom = ({ roomId, sign, player, }) => ({
   }
 });
 
-export const requestAddNewRoom = sign =>
-  (dispatch, getState) => fetch(ROOMS_URI, {
-    body: JSON.stringify({
-      sign
-    }),
-    cache: 'no-cache',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`
-    },
-    method: 'POST'
-  }).then((res) => {
-    if (res.status === 201) {
-      return res.json();
-    }
-    throw new Error();
-  }).then((body) => {
-    dispatch(addNewRoom({
-      sign,
-      player: getState().authorization.username,
-      roomId: body.roomid,
-    }));
+export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI, {
+  body: JSON.stringify({
+    sign
+  }),
+  cache: 'no-cache',
+  headers: {
+    'content-type': 'application/json',
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+  },
+  method: 'POST'
+}).then((res) => {
+  if (res.status === 201) {
+    return res.json();
+  }
+  throw new Error();
+}).then((body) => {
+  dispatch(addNewRoom({
+    sign,
+    player: getState().authorization.username,
+    roomId: body.roomid,
+  }));
 
-    const { socket } = getState();
-    socket.emit('join_room', {
-      sign,
-      player: getState().authorization.username,
-      roomId: body.roomid,
-    });
-    socket.on('room message', (data) => {
-      console.log(data);
-    });
+  const { socket } = getState();
+  socket.emit('join_room', {
+    sign,
+    player: getState().authorization.username,
+    roomId: body.roomid,
   });
+  socket.on('room message', (data) => {
+    console.log(data);
+  });
+});
 
+export const requestAvailable = () => (dispatch, getState) => fetch(ROOMS_URI, {
+  headers: {
+    'content-type': 'application/json',
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+  },
+  method: 'GET'
+}).then((res) => {
+  if (res.status === 201) {
+    return res.json();
+  }
+  throw new Error();
+}).then((body) => {
+  dispatch({
+    type: 'ADD_AVAILABLE_ROOM',
+    payload: {
+      
+    }
+  });
+});
 
 export const joinRoom = (roomId, sign, player) => ({
   type: 'SHOW_MESSAGE',
