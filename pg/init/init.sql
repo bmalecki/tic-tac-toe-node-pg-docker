@@ -21,4 +21,8 @@ INSERT INTO rooms (o,x) VALUES
   ('bartek', 'admin'),
   (null, 'asdf'),
   ('bartek', null),
+  ('agatek', null),
+  (null, 'bartek'),
+  (null, 'bartek'),
+  (null, 'bartek'),
   ('agatek', 'bartek');

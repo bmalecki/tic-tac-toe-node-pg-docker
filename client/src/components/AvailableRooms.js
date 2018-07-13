@@ -60,7 +60,7 @@ class AvailableRooms extends React.Component {
       opponent &&
       <div className="join-room">
         Join to {opponent} in room <b>{roomid} as {sign}</b>
-        <button onClick={() => onJoinRoom(roomid, sign).then(() => this.fetchRooms())} >
+        <button onClick={() => onJoinRoom(roomid, sign).then(() => this.props.requestAvailableRooms())} >
           JOIN
         </button>
       </div>;
