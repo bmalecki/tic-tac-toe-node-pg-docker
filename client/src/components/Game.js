@@ -24,7 +24,7 @@ Game.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  room: state.rooms[props.match.params.roomId]
+  room: state.rooms[props.match.params.roomid]
 });
 
 export default connect(mapStateToProps)(Game);

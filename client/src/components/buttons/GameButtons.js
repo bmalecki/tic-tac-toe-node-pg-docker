@@ -12,7 +12,7 @@ const GameButtons = room => _(range(BOARD_SIZE.ROW))
       fieldId={text}
       playerId={room.player1}
       gameStatus={room.gameStatus}
-      roomId={room.roomId}
+      roomid={room.roomid}
     />);
   }))
   .value();

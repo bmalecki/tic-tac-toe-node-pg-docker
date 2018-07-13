@@ -39,7 +39,7 @@ export const getUserRooms = user => (dispatch, getState) =>
     }
     throw new Error();
   }).then(body => body.forEach(room => dispatch(addRoom({
-    roomId: room.roomid,
+    roomid: room.roomid,
     player: user,
     sign: user.sign
   }))));

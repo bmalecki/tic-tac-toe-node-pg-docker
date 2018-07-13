@@ -8,14 +8,14 @@ const state = {
   },
   rooms: {
     a1: {
-      roomId: 'a1',
+      roomid: 'a1',
       player1: 'player1',
       player2: 'player2',
       gameStatus: 'NEW',
       message: ''
     },
     a2: {
-      roomId: 'a2',
+      roomid: 'a2',
       player1: 'player3',
       player2: 'player4',
       gameStatus: 'PLAYING',

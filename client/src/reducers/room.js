@@ -1,7 +1,7 @@
 import GAME_STATUS from '../constants/gameStatus';
 
 const defaultState = {
-  roomId: null,
+  roomid: null,
   player1: null,
   player2: null,
   gameStatus: GAME_STATUS.NEW,
@@ -23,9 +23,9 @@ export default (state = defaultState, action) => {
       };
 
     case 'ADD_ROOM': {
-      const { roomId, sign, player, opponent, gameStatus, message } = action.payload;
+      const { roomid, sign, player, opponent, gameStatus, message } = action.payload;
       return {
-        roomId,
+        roomid,
         player1: sign === 'o' ? player : (opponent || null),
         player2: sign === 'x' ? player : (opponent || null),
         gameStatus: gameStatus || GAME_STATUS.NEW,

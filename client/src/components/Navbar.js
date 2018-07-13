@@ -10,7 +10,7 @@ import { logout } from '../actions/token';
 const Navbar = ({ rooms, showLogout, onLogut, username }) => {
   const Rooms = _(rooms).keys().map(key => rooms[key])
     .map(room =>
-      <Link to={`/game/${room.roomId}`} key={room.roomId}><button>Room {room.roomId}</button></Link>)
+      <Link to={`/game/${room.roomid}`} key={room.roomid}><button>Room {room.roomid}</button></Link>)
     .value();
 
   return (

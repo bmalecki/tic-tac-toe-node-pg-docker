@@ -51,6 +51,10 @@ class AvailableRooms extends React.Component {
   //     });
   // }
 
+  componentDidMount() {
+    this.props.requestAvailableRooms();
+  }
+
   render() {
     const room = (opponent, sign, roomid) =>
       opponent &&
@@ -76,12 +80,17 @@ class AvailableRooms extends React.Component {
 }
 
 AvailableRooms.propTypes = {
-  availableRooms: PropTypes.func.isRequired
+  requestAvailableRooms: PropTypes.func.isRequired,
+  availableRooms: PropTypes.array,
 };
 
+const mapStateToProps = state => ({
+  availableRooms: state.availableRooms
+});
+
 const mapDispatchToProps = dispatch => ({
-  availableRooms: () => dispatch(requestAvailable()),
+  requestAvailableRooms: () => dispatch(requestAvailable()),
   onLoginSuccessed: props => dispatch(loginSuccessed(props))
 });
 
-export default connect(null, mapDispatchToProps)(AvailableRooms);
+export default connect(mapStateToProps, mapDispatchToProps)(AvailableRooms);

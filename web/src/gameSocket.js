@@ -6,9 +6,9 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     console.log('a user connected');
 
-    socket.on('join_room', ({ player, sign, roomId }) => {
-      console.log(`${player} as '${sign}' joins to room ${roomId}`);
-      socket.join(roomId);
+    socket.on('join_room', ({ player, sign, roomid }) => {
+      console.log(`${player} as '${sign}' joins to room ${roomid}`);
+      socket.join(roomid);
     });
 
 

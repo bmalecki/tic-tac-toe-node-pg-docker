@@ -10,10 +10,10 @@ export const addRoom = props => ({
   }
 });
 
-export const addNewRoom = ({ roomId, sign, player, }) => ({
+export const addNewRoom = ({ roomid, sign, player, }) => ({
   type: 'ADD_ROOM',
   payload: {
-    roomId,
+    roomid,
     sign,
     player,
   }
@@ -38,44 +38,44 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
   dispatch(addNewRoom({
     sign,
     player: getState().authorization.username,
-    roomId: body.roomid,
+    roomid: body.roomid,
   }));
 
   const { socket } = getState();
   socket.emit('join_room', {
     sign,
     player: getState().authorization.username,
-    roomId: body.roomid,
+    roomid: body.roomid,
   });
   socket.on('room message', (data) => {
     console.log(data);
   });
 });
 
-export const requestAvailable = () => (dispatch, getState) => fetch(ROOMS_URI, {
+export const requestAvailable = () => (dispatch, getState) => fetch(`${ROOMS_URI}?available`, {
   headers: {
     'content-type': 'application/json',
     Authorization: `Bearer ${window.localStorage.getItem('token')}`
   },
   method: 'GET'
 }).then((res) => {
-  if (res.status === 201) {
+  if (res.status === 200) {
     return res.json();
   }
   throw new Error();
 }).then((body) => {
   dispatch({
-    type: 'ADD_AVAILABLE_ROOM',
+    type: 'ADD_AVAILABLE_ROOMS',
     payload: {
-      
+      body
     }
   });
 });
 
-export const joinRoom = (roomId, sign, player) => ({
+export const joinRoom = (roomid, sign, player) => ({
   type: 'SHOW_MESSAGE',
   payload: {
-    roomId,
+    roomid,
     sign,
     player,
   }
@@ -86,40 +86,40 @@ export const clearRooms = () => ({
   payload: {}
 });
 
-export const showMessage = (roomId, message) => ({
+export const showMessage = (roomid, message) => ({
   type: 'SHOW_MESSAGE',
   payload: {
-    roomId,
+    roomid,
     message
   }
 });
 
-const movePlayer = (roomId, playerId, id) => ({
+const movePlayer = (roomid, playerId, id) => ({
   type: 'CHANGE_FIELD_STATUS',
   payload: {
     id,
-    roomId,
+    roomid,
     playerId
   }
 });
 
 
-export const move = (roomId, playerId, fieldId) => (dispatch, getState) => {
-  const fields = getState().fields[roomId];
+export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
+  const fields = getState().fields[roomid];
 
   if (!fields || (fields && !fields[fieldId])) {
-    dispatch(movePlayer(roomId, playerId, fieldId));
-    dispatch(showMessage(roomId, ''));
+    dispatch(movePlayer(roomid, playerId, fieldId));
+    dispatch(showMessage(roomid, ''));
   } else {
-    dispatch(showMessage(roomId, 'Field is not empty'));
+    dispatch(showMessage(roomid, 'Field is not empty'));
   }
 };
 
 
-export const startGame = roomId => ({
+export const startGame = roomid => ({
   type: 'CHANGE_GAME_STATUS',
   payload: {
     status: GAME_STATUS.WAITING,
-    roomId
+    roomid
   }
 });

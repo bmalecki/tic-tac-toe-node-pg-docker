@@ -44,7 +44,7 @@ class BoardScreen extends React.Component {
 
 BoardScreen.propTypes = {
   text: PropTypes.string.isRequired,
-  roomId: PropTypes.string.isRequired,
+  roomid: PropTypes.string.isRequired,
   fields: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
@@ -60,9 +60,9 @@ const joinFieldAndPlayerSign = (fields, players) => {
 };
 
 const mapStateToProps = (state, props) => ({
-  //fields: state.fields[props.roomId] || {}
+  //fields: state.fields[props.roomid] || {}
 
-  fields: joinFieldAndPlayerSign(state.fields[props.roomId], state.players)
+  fields: joinFieldAndPlayerSign(state.fields[props.roomid], state.players)
 });
 
 export default connect(mapStateToProps)(BoardScreen);

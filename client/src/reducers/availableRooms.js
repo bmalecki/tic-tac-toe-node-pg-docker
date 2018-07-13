@@ -1,16 +1,11 @@
-import room from './room';
-
-const defaultState = {};
+const defaultState = [];
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'ADD_AVAILABLE_ROOM':
-      return {
-        ...state,
-        [action.payload.roomId]: room(state[action.payload.roomId], action)
-      };
+    case 'ADD_AVAILABLE_ROOMS':
+      return action.payload.body;
     case 'CLEAR_AVAILABLE_ROOMS':
-      return {};
+      return [];
     default:
       return state;
   }

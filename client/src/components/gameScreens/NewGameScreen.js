@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import NewGameButton from '../buttons/NewGameButton';
 import GAME_STATUS from '../../constants/gameStatus';
 
-const NewGameScreen = ({ gameStatus, roomId }) => {
+const NewGameScreen = ({ gameStatus, roomid }) => {
   const beforeStartScreen = gameStatus === GAME_STATUS.NEW && (
-    <NewGameButton text="Start new game" roomId={roomId} />
+    <NewGameButton text="Start new game" roomid={roomid} />
   );
 
   return beforeStartScreen;

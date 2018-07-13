@@ -11,8 +11,8 @@ export default (state = defaultState, action) => {
     case 'CHANGE_FIELD_STATUS':
       return {
         ...state,
-        [action.payload.roomId]: {
-          ...state[action.payload.roomId],
+        [action.payload.roomid]: {
+          ...state[action.payload.roomid],
           [action.payload.id]: action.payload.playerId
         }
       };
