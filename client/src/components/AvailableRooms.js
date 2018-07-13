@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import '../styles/Navbar.css';
 import { loginSuccessed } from '../actions/token';
 import { requestAvailable } from '../actions/game';
-
+import { getUserRooms } from '../actions/init';
 
 const URI = 'http://localhost:8080/rooms';
 
@@ -32,25 +32,6 @@ const onJoinRoom = (roomid, sign) => {
 };
 
 class AvailableRooms extends React.Component {
-
-  // fetchRooms() {
-  //   const { logout } = this.props;
-
-  //   fetch('http://localhost:8080/rooms?available', {
-  //     headers: {
-  //       Authorization: `Bearer ${window.localStorage.getItem('token')}`
-  //     }
-  //   })
-  //     .then((res) => {
-  //       if (res.status === 200) return res.json();
-  //       throw new Error({ status: res.status });
-  //     })
-  //     .catch(() => logout())
-  //     .then((data) => {
-  //       if (this.isMount) this.setState({ availableRooms: data });
-  //     });
-  // }
-
   componentDidMount() {
     this.props.requestAvailableRooms();
   }
@@ -60,7 +41,10 @@ class AvailableRooms extends React.Component {
       opponent &&
       <div className="join-room">
         Join to {opponent} in room <b>{roomid} as {sign}</b>
-        <button onClick={() => onJoinRoom(roomid, sign).then(() => this.props.requestAvailableRooms())} >
+        <button onClick={() => onJoinRoom(roomid, sign)
+          .then(() => this.props.getUserRooms(this.props.username))
+          .then(() => this.props.requestAvailableRooms())}
+        >
           JOIN
         </button>
       </div>;
@@ -82,13 +66,17 @@ class AvailableRooms extends React.Component {
 AvailableRooms.propTypes = {
   requestAvailableRooms: PropTypes.func.isRequired,
   availableRooms: PropTypes.array,
+  username: PropTypes.string,
+  getUserRooms: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  availableRooms: state.availableRooms
+  availableRooms: state.availableRooms,
+  username: state.authorization.username
 });
 
 const mapDispatchToProps = dispatch => ({
+  getUserRooms: user => dispatch(getUserRooms(user)),
   requestAvailableRooms: () => dispatch(requestAvailable()),
   onLoginSuccessed: props => dispatch(loginSuccessed(props))
 });
