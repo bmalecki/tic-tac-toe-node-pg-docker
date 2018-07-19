@@ -15,6 +15,8 @@ const errorPages = require('./middlewares/error-pages');
 const app = new Koa();
 const http = require('http').Server(app.callback());
 
+const io = gameSocket(http);
+
 app
   .use(cors())
   .use(logger())
@@ -24,10 +26,13 @@ app
   .use(routerPublic.routes())
   .use(routerPublic.allowedMethods())
   .use(jwt)
+  .use(async (ctx, next) => {
+    ctx.io = io;
+    await next();
+  })
   .use(routerProtected.routes())
   .use(routerProtected.allowedMethods());
 
-gameSocket(http);
 
 http.listen(8080, () => {
   console.log('App listen on *:8080');

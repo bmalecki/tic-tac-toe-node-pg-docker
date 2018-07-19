@@ -41,7 +41,7 @@ export const logout = () => (dispatch, getState) => {
     username: null,
     failed: false
   }));
-  // getState().socket
+  getState().socket.emit('destroy');
   dispatch(destroySocket());
   dispatch(clearRooms());
 };

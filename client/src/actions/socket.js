@@ -1,16 +1,22 @@
-export const initSocket = (socket) => {
+import { requestAvailable } from './game';
+
+export const initSocket = socket => (dispatch, getState) => {
   console.log('init socket');
-  
-  socket.on('msg', (msg) => {
-    console.log('socket: ', msg);
+
+  socket.on('ROOM_ADDED', () => {
+    dispatch(requestAvailable());
   });
 
-  return {
+  socket.on('msg', (msg) => {
+    console.log(msg)
+  });
+
+  dispatch({
     type: 'IO_INIT',
     payload: {
       socket,
     }
-  };
+  });
 };
 
 export const destroySocket = () => ({

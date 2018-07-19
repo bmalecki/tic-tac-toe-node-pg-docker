@@ -11,6 +11,9 @@ module.exports = (http) => {
       socket.join(roomid);
     });
 
+    socket.on('destroy', () => {
+      socket.disconnect(true);
+    });
 
     socket.on('disconnect', () => {
       console.log('user disconnected');
@@ -18,6 +21,8 @@ module.exports = (http) => {
   });
 
   setInterval(() => io.to('room1').emit('room message', 'what is going on, party people?'), 500);
-  setInterval(() => io.emit('msg', 'My MSG'), 500);
+  setInterval(() => io.emit('msg', 'what is going on, party people?'), 500);
+
+  return io;
 };
 
