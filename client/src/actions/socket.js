@@ -1,13 +1,18 @@
-export const initSocket = socket => ({
-  type: 'IO_INIT',
-  payload: {
-    socket,
-  }
-});
+export const initSocket = (socket) => {
+  console.log('init socket');
+  
+  socket.on('msg', (msg) => {
+    console.log('socket: ', msg);
+  });
 
-export const destroySocket = socket => ({
-  type: 'IO_DESTROY',
-  payload: {
-    socket,
-  }
+  return {
+    type: 'IO_INIT',
+    payload: {
+      socket,
+    }
+  };
+};
+
+export const destroySocket = () => ({
+  type: 'IO_DESTROY'
 });

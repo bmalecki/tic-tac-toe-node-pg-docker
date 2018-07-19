@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { clearRooms } from './game';
 import { getUserRooms } from './init';
-import { initSocket } from './socket';
+import { initSocket, destroySocket } from './socket';
 
 const SOCKET_URI = 'http://localhost:8080';
 
@@ -29,8 +29,8 @@ export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
   });
   dispatch(updateToken(token));
   if (props.username) {
-    dispatch(getUserRooms(props.username));
     dispatch(initSocket(io(SOCKET_URI)));
+    dispatch(getUserRooms(props.username));
   }
 };
 
@@ -41,6 +41,8 @@ export const logout = () => (dispatch, getState) => {
     username: null,
     failed: false
   }));
+  // getState().socket
+  dispatch(destroySocket());
   dispatch(clearRooms());
 };
 
