@@ -91,9 +91,13 @@ const rooms = {
 
   addUser: async (ctx, next) => {
     try {
-      const { sign, roomid } = ctx.request.body;
-      const { username } = ctx.state.user;
+      const { username, sign, roomid } = ctx.request.body;
 
+      if (ctx.state.user.username !== username) {
+        ctx.response.status = 401;
+        ctx.body = 'Unauthorized';
+        return;
+      }
       await usersDb.addUserToRoom(username, sign, roomid)
         .then((result) => {
           if (result) {

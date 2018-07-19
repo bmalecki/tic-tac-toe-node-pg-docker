@@ -1,4 +1,5 @@
 import GAME_STATUS from '../constants/gameStatus';
+import { getUserRooms } from './init';
 
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
@@ -72,14 +73,26 @@ export const requestAvailable = () => (dispatch, getState) => fetch(`${ROOMS_URI
   });
 });
 
-export const joinRoom = (roomid, sign, player) => ({
-  type: 'SHOW_MESSAGE',
-  payload: {
-    roomid,
+export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetch(ROOMS_URI, {
+  body: JSON.stringify({
     sign,
-    player,
+    roomid,
+    username
+  }),
+  cache: 'no-cache',
+  headers: {
+    'content-type': 'application/json',
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`
+  },
+  method: 'PUT',
+}).then((res) => {
+  if (res.status === 201) {
+    return res.text();
   }
-});
+  throw new Error();
+}).then(() => dispatch(getUserRooms(username)))
+  .then(() => dispatch(requestAvailable()));
+
 
 export const clearRooms = () => ({
   type: 'CLEAR_ROOMS',

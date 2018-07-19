@@ -4,32 +4,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import '../styles/Navbar.css';
-import { loginSuccessed } from '../actions/token';
-import { requestAvailable } from '../actions/game';
-import { getUserRooms } from '../actions/init';
+import { requestAvailable, joinRoom } from '../actions/game';
 
-const URI = 'http://localhost:8080/rooms';
-
-const onJoinRoom = (roomid, sign) => {
-  return fetch(URI, {
-    body: JSON.stringify({
-      sign,
-      roomid
-    }),
-    cache: 'no-cache',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`
-    },
-    method: 'PUT',
-  })
-    .then((res) => {
-      if (res.status === 201) {
-        return res.text();
-      }
-      throw new Error();
-    });
-};
 
 class AvailableRooms extends React.Component {
   componentDidMount() {
@@ -41,10 +17,7 @@ class AvailableRooms extends React.Component {
       opponent &&
       <div className="join-room">
         Join to {opponent} in room <b>{roomid} as {sign}</b>
-        <button onClick={() => onJoinRoom(roomid, sign)
-          .then(() => this.props.getUserRooms(this.props.username))
-          .then(() => this.props.requestAvailableRooms())}
-        >
+        <button onClick={() => this.props.joinRoom(roomid, sign, this.props.username)}>
           JOIN
         </button>
       </div>;
@@ -67,7 +40,7 @@ AvailableRooms.propTypes = {
   requestAvailableRooms: PropTypes.func.isRequired,
   availableRooms: PropTypes.array,
   username: PropTypes.string,
-  getUserRooms: PropTypes.func.isRequired
+  joinRoom: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -76,9 +49,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUserRooms: user => dispatch(getUserRooms(user)),
   requestAvailableRooms: () => dispatch(requestAvailable()),
-  onLoginSuccessed: props => dispatch(loginSuccessed(props))
+  joinRoom: (roomid, sign, player) => dispatch(joinRoom(roomid, sign, player))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AvailableRooms);
