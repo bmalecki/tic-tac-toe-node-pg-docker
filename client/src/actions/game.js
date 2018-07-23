@@ -9,6 +9,7 @@ export const showMessage = (roomid, message) => ({
   }
 });
 
+
 const movePlayer = (roomid, playerId, id) => ({
   type: 'CHANGE_FIELD_STATUS',
   payload: {

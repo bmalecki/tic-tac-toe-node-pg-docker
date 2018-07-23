@@ -3,12 +3,14 @@ import { getUserRooms } from './init';
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
+
 export const addRoom = props => ({
   type: 'ADD_ROOM',
   payload: {
     ...props
   }
 });
+
 
 export const addNewRoom = ({ roomid, sign, player, }) => ({
   type: 'ADD_ROOM',
@@ -18,6 +20,7 @@ export const addNewRoom = ({ roomid, sign, player, }) => ({
     player,
   }
 });
+
 
 export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI, {
   body: JSON.stringify({
@@ -52,6 +55,7 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
   });
 });
 
+
 export const requestAvailable = () => (dispatch, getState) => fetch(`${ROOMS_URI}?available`, {
   headers: {
     'content-type': 'application/json',
@@ -71,6 +75,7 @@ export const requestAvailable = () => (dispatch, getState) => fetch(`${ROOMS_URI
     }
   });
 });
+
 
 export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetch(ROOMS_URI, {
   body: JSON.stringify({
