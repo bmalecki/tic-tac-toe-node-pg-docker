@@ -86,11 +86,14 @@ export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetc
   method: 'PUT',
 }).then((res) => {
   if (res.status === 201) {
+    Promise.all([
+      dispatch(getUserRooms(username)),
+      dispatch(requestAvailable())
+    ]);
     return res.text();
   }
   throw new Error();
-}).then(() => dispatch(getUserRooms(username)))
-  .then(() => dispatch(requestAvailable()));
+});
 
 
 export const clearRooms = () => ({
