@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loginSuccessed } from '../actions/token';
-import { requestAddNewRoom } from '../actions/game';
+import { requestAddNewRoom } from '../actions/room';
 import '../styles/App.css';
 import ExampleStyledComponent from './ExampleStyledComponent';
 import '../styles/Home.css';

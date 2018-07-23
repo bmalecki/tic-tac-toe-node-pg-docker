@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { clearRooms } from './game';
+import { clearRooms } from './room';
 import { getUserRooms } from './init';
 import { initSocket, destroySocket } from './socket';
 

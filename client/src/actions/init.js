@@ -1,5 +1,5 @@
 import { loginSuccessed } from './token';
-import { addRoom } from './game';
+import { addRoom } from './room';
 
 const ROOT_URI = 'http://localhost:8080';
 const USER_URI = `${ROOT_URI}/user`;

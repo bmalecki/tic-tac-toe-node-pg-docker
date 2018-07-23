@@ -1,4 +1,4 @@
-import { requestAvailable } from './game';
+import { requestAvailable } from './room';
 
 export const initSocket = socket => (dispatch, getState) => {
   console.log('init socket');

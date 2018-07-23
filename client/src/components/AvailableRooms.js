@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import '../styles/Navbar.css';
-import { requestAvailable, joinRoom } from '../actions/game';
+import { requestAvailable, joinRoom } from '../actions/room';
 
 
 class AvailableRooms extends React.Component {
