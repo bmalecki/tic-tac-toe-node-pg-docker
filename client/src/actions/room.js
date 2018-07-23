@@ -81,21 +81,19 @@ export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetc
   method: 'PUT',
 }).then((res) => {
   if (res.status === 201) {
-    Promise.all([
+    return Promise.all([
       dispatch(getUserRooms(username)),
       dispatch(requestAvailable())
     ]);
-
-    const { socket } = getState();
-    socket.emit('JOIN_ROOM', {
-      sign,
-      player: getState().authorization.username,
-      roomid,
-    }, () => { });
-
-    return res.text();
   }
   throw new Error();
+}).then(() => {
+  const { socket } = getState();
+  socket.emit('JOIN_ROOM', {
+    sign,
+    player: getState().authorization.username,
+    roomid,
+  }, () => { });
 });
 
 
