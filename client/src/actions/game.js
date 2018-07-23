@@ -32,10 +32,27 @@ export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
 };
 
 
-export const startGame = roomid => ({
+export const waitForOpponent = roomid => ({
   type: 'CHANGE_GAME_STATUS',
   payload: {
     status: GAME_STATUS.WAITING,
     roomid
   }
 });
+
+export const play = roomid => ({
+  type: 'CHANGE_GAME_STATUS',
+  payload: {
+    status: GAME_STATUS.PLAYING,
+    roomid
+  }
+});
+
+export const waitForNewOpponent = roomid => ({
+  type: 'CHANGE_GAME_STATUS',
+  payload: {
+    status: GAME_STATUS.NEW,
+    roomid
+  }
+});
+

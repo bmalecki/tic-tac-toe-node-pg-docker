@@ -1,16 +1,8 @@
 import { getUserRooms } from './init';
+import { waitForOpponent } from './game';
 
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
-
-function joinUserToRoom(state, sign, roomid) {
-  const { socket } = state;
-  socket.emit('join_room', {
-    sign,
-    player: state.authorization.username,
-    roomid,
-  }, () => { socket.emit('msg', roomid); });
-}
 
 
 export const addRoom = ({ roomid, sign, player, }) => ({
@@ -45,7 +37,12 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
     roomid: body.roomid,
   }));
 
-  joinUserToRoom(getState(), sign, body.roomid);
+  const { socket } = getState();
+  socket.emit('CREATE_ROOM', {
+    sign,
+    player: getState().authorization.username,
+    roomid: body.roomid,
+  });
 });
 
 
@@ -88,7 +85,14 @@ export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetc
       dispatch(getUserRooms(username)),
       dispatch(requestAvailable())
     ]);
-    joinUserToRoom(getState(), sign, roomid);
+
+    const { socket } = getState();
+    socket.emit('JOIN_ROOM', {
+      sign,
+      player: getState().authorization.username,
+      roomid,
+    }, () => { });
+
     return res.text();
   }
   throw new Error();

@@ -44,7 +44,7 @@ class BoardScreen extends React.Component {
 
 BoardScreen.propTypes = {
   text: PropTypes.string.isRequired,
-  roomid: PropTypes.string.isRequired,
+  roomid: PropTypes.number.isRequired,
   fields: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 

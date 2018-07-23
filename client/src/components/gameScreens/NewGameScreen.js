@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NewGameButton from '../buttons/NewGameButton';
+import BoardMessage from './BoardMessage';
 import GAME_STATUS from '../../constants/gameStatus';
 
 const NewGameScreen = ({ gameStatus, roomid }) => {
   const beforeStartScreen = gameStatus === GAME_STATUS.NEW && (
-    <NewGameButton text="Start new game" roomid={roomid} />
+    <BoardMessage text={`Waiting for NEW opponent in room ${roomid}`} />
   );
 
   return beforeStartScreen;

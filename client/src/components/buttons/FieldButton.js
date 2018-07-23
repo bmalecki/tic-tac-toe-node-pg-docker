@@ -14,8 +14,8 @@ const FieldButton = ({ fieldId, onClick, playerId, gameStatus, roomid }) => (
 FieldButton.propTypes = {
   fieldId: PropTypes.string.isRequired,
   gameStatus: PropTypes.string.isRequired,
-  playerId: PropTypes.string.isRequired,
-  roomid: PropTypes.string.isRequired,
+  playerId: PropTypes.string,
+  roomid: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
