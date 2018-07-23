@@ -6,9 +6,10 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     console.log('a user connected');
 
-    socket.on('join_room', ({ player, sign, roomid }) => {
+    socket.on('join_room', ({ player, sign, roomid }, fn) => {
       console.log(`${player} as '${sign}' joins to room ${roomid}`);
       socket.join(roomid);
+      fn();
     });
 
     socket.on('destroy', () => {

@@ -3,16 +3,17 @@ import { getUserRooms } from './init';
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
+function joinUserToRoom(state, sign, roomid) {
+  const { socket } = state;
+  socket.emit('join_room', {
+    sign,
+    player: state.authorization.username,
+    roomid,
+  }, () => { socket.emit('msg', roomid); });
+}
 
-export const addRoom = props => ({
-  type: 'ADD_ROOM',
-  payload: {
-    ...props
-  }
-});
 
-
-export const addNewRoom = ({ roomid, sign, player, }) => ({
+export const addRoom = ({ roomid, sign, player, }) => ({
   type: 'ADD_ROOM',
   payload: {
     roomid,
@@ -38,21 +39,13 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
   }
   throw new Error();
 }).then((body) => {
-  dispatch(addNewRoom({
+  dispatch(addRoom({
     sign,
     player: getState().authorization.username,
     roomid: body.roomid,
   }));
 
-  const { socket } = getState();
-  socket.emit('join_room', {
-    sign,
-    player: getState().authorization.username,
-    roomid: body.roomid,
-  });
-  socket.on('room message', (data) => {
-    console.log(data);
-  });
+  joinUserToRoom(getState(), sign, body.roomid);
 });
 
 
@@ -95,6 +88,7 @@ export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetc
       dispatch(getUserRooms(username)),
       dispatch(requestAvailable())
     ]);
+    joinUserToRoom(getState(), sign, roomid);
     return res.text();
   }
   throw new Error();

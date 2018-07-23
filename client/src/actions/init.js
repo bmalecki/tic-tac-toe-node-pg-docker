@@ -1,4 +1,4 @@
-import { loginSuccessed } from './token';
+import { loginSuccessed, logout } from './token';
 import { addRoom } from './room';
 
 const ROOT_URI = 'http://localhost:8080';
@@ -15,6 +15,9 @@ export const loginAfterRefreshSite = () => (dispatch, getState) => fetch(USER_UR
 }).then((res) => {
   if (res.status === 200) {
     return res.json();
+  }
+  if (res.status === 401) {
+    dispatch(logout());
   }
   throw new Error();
 }).then((body) => {
