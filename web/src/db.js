@@ -47,7 +47,7 @@ const exportFunc = {
   getUserRooms: username => doQuery(`
       WITH user_rooms AS (
         ${GET_ROOM_QUERY} WHERE player1=$1 OR player2=$1)
-      SELECT roomid,
+      SELECT roomid, room_status, player1, player2,
         CASE 
           WHEN player1=$1 THEN 'x'
           WHEN player2=$1 THEN 'o'
@@ -85,7 +85,7 @@ const exportFunc = {
     (() => {
       if (sign === 'o' || sign === 'x') {
         const createQuery = (s1, s2) => doQuery(
-          `UPDATE rooms SET ${s1} = $1
+          `UPDATE rooms SET ${s1} = $1, room_status = 'move_player1'
             WHERE roomid = $2 
             AND ${s2} NOT LIKE $1 
             AND ${s1} IS NULL

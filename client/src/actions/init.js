@@ -30,7 +30,7 @@ export const loginAfterRefreshSite = () => (dispatch, getState) => fetch(USER_UR
   return body.username;
 });
 
-export const getUserRooms = user => (dispatch, getState) => 
+export const getUserRooms = user => (dispatch, getState) =>
   fetch(USER_ROOMS_URI(user), {
     headers: {
       Authorization: `Bearer ${getToken()}`
@@ -41,8 +41,8 @@ export const getUserRooms = user => (dispatch, getState) =>
       return res.json();
     }
     throw new Error();
-  }).then(body => body.forEach(room => dispatch(addRoom({
-    roomid: room.roomid,
-    player: user,
-    sign: user.sign
+  }).then(body => body.forEach(({ roomid, player1, player2 }) => dispatch(addRoom({
+    roomid,
+    player1,
+    player2
   }))));
