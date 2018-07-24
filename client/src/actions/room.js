@@ -1,6 +1,3 @@
-import { getUserRooms } from './init';
-import { waitForOpponent } from './game';
-
 const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
@@ -78,10 +75,7 @@ export const joinRoom = (roomid, sign, username) => (dispatch, getState) => fetc
   method: 'PUT',
 }).then((res) => {
   if (res.status === 201) {
-    return Promise.all([
-      dispatch(getUserRooms(username)),
-      dispatch(requestAvailable())
-    ]);
+    return dispatch(requestAvailable());
   }
   throw new Error();
 }).then(() => {
