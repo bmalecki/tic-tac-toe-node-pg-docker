@@ -8,8 +8,8 @@ export const initSocket = socket => (dispatch, getState) => {
     dispatch(requestAvailable());
   });
 
-  socket.on('PLAY_GAME', ({ roomid }) => {
-    console.log('aaa');
+  socket.on('PLAY_GAME', ({ roomid, a }) => {
+    console.dir(a);
     dispatch(waitForOpponent(roomid));
   });
 

@@ -1,4 +1,5 @@
 const socketIo = require('socket.io');
+const db = require('./db');
 
 module.exports = (http) => {
   const io = socketIo(http);
@@ -11,10 +12,11 @@ module.exports = (http) => {
       socket.join(roomid);
     });
 
-    socket.on('JOIN_ROOM', ({ player, sign, roomid }, fn) => {
+    socket.on('JOIN_ROOM', async ({ player, sign, roomid }, fn) => {
       console.log(`${player} as '${sign}' joins to room ${roomid}`);
       socket.join(roomid);
-      io.in(roomid).emit('PLAY_GAME', { roomid });
+      const a = await db.getRoom(roomid);
+      io.in(roomid).emit('PLAY_GAME', { roomid, a });
       fn();
     });
 
