@@ -25,8 +25,8 @@ class AvailableRooms extends React.Component {
     const Rooms = _(this.props.availableRooms)
       .map(r => (
         <div key={r.roomid}>
-          {room(r.x, 'o', r.roomid)}
-          {room(r.o, 'x', r.roomid)}
+          {room(r.player1, 'o', r.roomid)}
+          {room(r.player2, 'x', r.roomid)}
         </div>
       )).value();
 

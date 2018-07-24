@@ -7,8 +7,8 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS rooms;
 CREATE TABLE rooms (
   roomid     SERIAL PRIMARY KEY,
-  o          varchar(40),
-  x          varchar(40)
+  player1          varchar(40),
+  player2          varchar(40)
 );
 
 INSERT INTO users VALUES 

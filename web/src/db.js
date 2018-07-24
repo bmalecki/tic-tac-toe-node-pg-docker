@@ -44,11 +44,11 @@ const exportFunc = {
 
   getUserRooms: username => doQuery(`
       WITH user_rooms AS (
-        SELECT roomid, o, x FROM rooms WHERE o=$1 OR x=$1)
+        SELECT roomid, player1, player2 FROM rooms WHERE player1=$1 OR player2=$1)
       SELECT roomid,
         CASE 
-          WHEN x=$1 THEN 'x'
-          WHEN o=$1 THEN 'o'
+          WHEN player1=$1 THEN 'x'
+          WHEN player2=$1 THEN 'o'
         END as sign
       FROM user_rooms
     `, [username])
@@ -72,8 +72,8 @@ const exportFunc = {
             (SELECT * FROM users WHERE username=$1)
         RETURNING roomid`;
 
-        if (sign === 'o') return doQuery(createQuery('o'), [username]);
-        else if (sign === 'x') return doQuery(createQuery('x'), [username]);
+        if (sign === 'o') return doQuery(createQuery('player2'), [username]);
+        else if (sign === 'x') return doQuery(createQuery('player1'), [username]);
       }
 
       throw new Error('Forbiden sign');
@@ -91,28 +91,28 @@ const exportFunc = {
           [username, roomid],
         );
 
-        if (sign === 'o') return createQuery('o', 'x');
-        else if (sign === 'x') return createQuery('x', 'o');
+        if (sign === 'o') return createQuery('player2', 'player1');
+        else if (sign === 'x') return createQuery('player1', 'player2');
       }
 
       throw new Error('Forbiden sign');
     })().then(result => result !== undefined && result.rowCount === 1),
 
   getAllRooms: () =>
-    doQuery('SELECT roomid, o, x FROM rooms')
+    doQuery('SELECT roomid, player1, player2 FROM rooms')
       .then(result => result.rows),
 
   getFreeRooms: () =>
-    doQuery('SELECT roomid, o, x FROM rooms WHERE o IS NULL OR x IS NULL')
+    doQuery('SELECT roomid, player1, player2 FROM rooms WHERE player1 IS NULL OR player2 IS NULL')
       .then(result => result.rows),
 
   getAvailableRooms: user =>
-    doQuery(`SELECT roomid, o, x FROM rooms WHERE
-     (o IS NULL AND x NOT LIKE $1) OR (x IS NULL AND o NOT LIKE $1)`, [user])
+    doQuery(`SELECT roomid, player1, player2 FROM rooms WHERE
+     (player2 IS NULL AND player1 NOT LIKE $1) OR (player1 IS NULL AND player2 NOT LIKE $1)`, [user])
       .then(result => result.rows),
 
   getRoom: roomid =>
-    doQuery('SELECT roomid, o, x FROM rooms WHERE roomid=$1', [roomid])
+    doQuery('SELECT roomid, player1, player2 FROM rooms WHERE roomid=$1', [roomid])
       .then(result => result.rows[0]),
 };
 

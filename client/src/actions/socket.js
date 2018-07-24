@@ -1,4 +1,4 @@
-import { requestAvailable } from './room';
+import { requestAvailable, addRoom } from './room';
 import { waitForOpponent } from './game';
 
 export const initSocket = socket => (dispatch, getState) => {
@@ -8,9 +8,9 @@ export const initSocket = socket => (dispatch, getState) => {
     dispatch(requestAvailable());
   });
 
-  socket.on('PLAY_GAME', ({ roomid, a }) => {
-    console.dir(a);
-    dispatch(waitForOpponent(roomid));
+  socket.on('START_GAME', ({ roomid, x, o }) => {
+    dispatch(addRoom({ roomid, x, o }));
+    // dispatch(waitForOpponent(roomid));
   });
 
   dispatch({

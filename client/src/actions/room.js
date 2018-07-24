@@ -5,13 +5,9 @@ const ROOT_URI = 'http://localhost:8080';
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
 
-export const addRoom = ({ roomid, sign, player, }) => ({
+export const addRoom = props => ({
   type: 'ADD_ROOM',
-  payload: {
-    roomid,
-    sign,
-    player,
-  }
+  payload: props
 });
 
 

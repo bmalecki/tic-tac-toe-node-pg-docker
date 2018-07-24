@@ -21,13 +21,12 @@ export default (state = defaultState, action) => {
         ...state,
         message: action.payload.message
       };
-
     case 'ADD_ROOM': {
-      const { roomid, sign, player, opponent, gameStatus, message } = action.payload;
+      const { roomid, player1, player2, gameStatus, message } = action.payload;
       return {
         roomid,
-        player1: sign === 'o' ? player : (opponent || null),
-        player2: sign === 'x' ? player : (opponent || null),
+        player1,
+        player2,
         gameStatus: gameStatus || GAME_STATUS.NEW,
         message: message || '',
       };
