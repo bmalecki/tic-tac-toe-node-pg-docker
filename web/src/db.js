@@ -29,6 +29,8 @@ async function doQuery(query, parms) {
   });
 }
 
+const GET_ROOM_QUERY = 'SELECT roomid, player1, player2, room_status, board FROM rooms';
+
 const exportFunc = {
   getUser: username =>
     doQuery('SELECT username from users where username LIKE $1', [username])
@@ -44,7 +46,7 @@ const exportFunc = {
 
   getUserRooms: username => doQuery(`
       WITH user_rooms AS (
-        SELECT roomid, player1, player2 FROM rooms WHERE player1=$1 OR player2=$1)
+        ${GET_ROOM_QUERY} WHERE player1=$1 OR player2=$1)
       SELECT roomid,
         CASE 
           WHEN player1=$1 THEN 'x'
@@ -67,8 +69,8 @@ const exportFunc = {
     (() => {
       if (sign === 'o' || sign === 'x') {
         const createQuery = s => `
-        INSERT INTO rooms (${s}) 
-          SELECT CAST($1 AS VARCHAR) WHERE EXISTS 
+        INSERT INTO rooms (${s}, room_status) 
+          SELECT CAST($1 AS VARCHAR), 'new' WHERE EXISTS 
             (SELECT * FROM users WHERE username=$1)
         RETURNING roomid`;
 
@@ -99,20 +101,20 @@ const exportFunc = {
     })().then(result => result !== undefined && result.rowCount === 1),
 
   getAllRooms: () =>
-    doQuery('SELECT roomid, player1, player2 FROM rooms')
+    doQuery(GET_ROOM_QUERY)
       .then(result => result.rows),
 
   getFreeRooms: () =>
-    doQuery('SELECT roomid, player1, player2 FROM rooms WHERE player1 IS NULL OR player2 IS NULL')
+    doQuery(`${GET_ROOM_QUERY} WHERE player1 IS NULL OR player2 IS NULL`)
       .then(result => result.rows),
 
   getAvailableRooms: user =>
-    doQuery(`SELECT roomid, player1, player2 FROM rooms WHERE
+    doQuery(`${GET_ROOM_QUERY} WHERE
      (player2 IS NULL AND player1 NOT LIKE $1) OR (player1 IS NULL AND player2 NOT LIKE $1)`, [user])
       .then(result => result.rows),
 
   getRoom: roomid =>
-    doQuery('SELECT roomid, player1, player2 FROM rooms WHERE roomid=$1', [roomid])
+    doQuery(`${GET_ROOM_QUERY} WHERE roomid=$1`, [roomid])
       .then(result => result.rows[0]),
 };
 

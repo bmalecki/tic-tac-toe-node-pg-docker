@@ -8,7 +8,9 @@ DROP TABLE IF EXISTS rooms;
 CREATE TABLE rooms (
   roomid     SERIAL PRIMARY KEY,
   player1          varchar(40),
-  player2          varchar(40)
+  player2          varchar(40),
+  room_status      varchar(40),
+  board            json
 );
 
 INSERT INTO users VALUES 
