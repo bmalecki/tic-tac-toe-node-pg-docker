@@ -8,7 +8,10 @@ export const initSocket = socket => (dispatch, getState) => {
   });
 
   socket.on('START_GAME', (props) => {
-    dispatch(addRoom(props));
+    dispatch(addRoom({
+      ...props,
+      user: getState().authorization.username
+    }));
   });
 
   dispatch({

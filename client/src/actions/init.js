@@ -44,4 +44,5 @@ export const getUserRooms = user => (dispatch, getState) =>
   }).then(body => body.forEach(room => dispatch(addRoom({
     ...room,
     gameStatus: room.game_status,
+    user: getState().authorization.username
   }))));

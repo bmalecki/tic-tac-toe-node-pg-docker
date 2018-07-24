@@ -24,10 +24,11 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
   }
   throw new Error();
 }).then((body) => {
+  const user = getState().authorization.username;
   dispatch(addRoom({
-    sign,
-    player1: sign === 'x' ? getState().authorization.username : null,
-    player2: sign === 'o' ? getState().authorization.username : null,
+    user,
+    player1: sign === 'x' ? user : null,
+    player2: sign === 'o' ? user : null,
     roomid: body.roomid,
     gameStatus: 'new'
   }));
@@ -35,7 +36,7 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
   const { socket } = getState();
   socket.emit('CREATE_ROOM', {
     sign,
-    player: getState().authorization.username,
+    player: user,
     roomid: body.roomid,
   });
 });
