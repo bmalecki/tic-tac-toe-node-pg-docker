@@ -7,10 +7,8 @@ export const initSocket = socket => (dispatch, getState) => {
     dispatch(requestAvailable());
   });
 
-  socket.on('START_GAME', ({ roomid, player1, player2 }) => {
-    console.dir({ roomid, player1, player2 });
-    dispatch(addRoom({ roomid, player1, player2 }));
-    // dispatch(waitForOpponent(roomid));
+  socket.on('START_GAME', (props) => {
+    dispatch(addRoom(props));
   });
 
   dispatch({

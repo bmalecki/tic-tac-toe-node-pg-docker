@@ -27,7 +27,7 @@ export default (state = defaultState, action) => {
         roomid,
         player1,
         player2,
-        gameStatus: gameStatus || GAME_STATUS.NEW,
+        gameStatus,
         message: message || '',
       };
     }

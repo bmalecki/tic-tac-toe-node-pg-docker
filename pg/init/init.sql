@@ -9,7 +9,7 @@ CREATE TABLE rooms (
   roomid     SERIAL PRIMARY KEY,
   player1          varchar(40),
   player2          varchar(40),
-  room_status      varchar(40),
+  game_status      varchar(40),
   board            json
 );
 

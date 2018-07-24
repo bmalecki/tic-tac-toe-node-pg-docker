@@ -13,10 +13,10 @@ module.exports = (http) => {
     });
 
     socket.on('JOIN_ROOM', async ({ player, sign, roomid }, fn) => {
-      const { player1, player2 } = await db.getRoom(roomid);
+      const room = await db.getRoom(roomid);
       socket.join(roomid);
       console.log(`${player} as '${sign}' joins to room ${roomid}`);
-      io.in(roomid).emit('START_GAME', { roomid, player1, player2 });
+      io.in(roomid).emit('START_GAME', { ...room, gameStatus: room.game_status });
       fn();
     });
 

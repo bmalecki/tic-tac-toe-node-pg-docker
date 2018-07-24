@@ -41,8 +41,7 @@ export const getUserRooms = user => (dispatch, getState) =>
       return res.json();
     }
     throw new Error();
-  }).then(body => body.forEach(({ roomid, player1, player2 }) => dispatch(addRoom({
-    roomid,
-    player1,
-    player2
+  }).then(body => body.forEach(room => dispatch(addRoom({
+    ...room,
+    gameStatus: room.game_status,
   }))));
