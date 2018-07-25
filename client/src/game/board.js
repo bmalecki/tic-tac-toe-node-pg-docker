@@ -8,7 +8,7 @@ const OFFSET = 10;
 function clear({ ctx, width, height }) {
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = 'rgba(0, 50, 50, 0.5)';
+  ctx.fillStyle = 'rgba(0, 50, 50, 1)';
   ctx.fillRect(0, 0, width, height);
 }
 
@@ -48,6 +48,7 @@ function setUnitColor({
 }
 
 function drawUnit({ ctx, i, k }) {
+  ctx.beginPath();
   ctx.fillRect(
     25 + (FIELD_SIZE * k),
     25 + (FIELD_SIZE * i),
@@ -95,7 +96,6 @@ function setUnitContent({
     case FIELD_STATUS.X:
     case FIELD_STATUS.WINNER_X:
       drawX(ctx, i, k);
-      ctx.fillStyle = 'blue';
       break;
     case FIELD_STATUS.O:
     case FIELD_STATUS.WINNER_O:
