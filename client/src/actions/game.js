@@ -31,9 +31,6 @@ export const waitForOpponent = roomid => ({
 export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
   const { fields } = getState().rooms[roomid];
 
-  let player = 'player1';
-  // if(getState().authorization.username === )
-
   if (!fields || (fields && !fields[fieldId])) {
     dispatch(movePlayer(roomid, playerId, fieldId));
     dispatch(waitForOpponent(roomid));
