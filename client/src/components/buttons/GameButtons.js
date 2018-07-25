@@ -10,7 +10,7 @@ const GameButtons = room => _(range(BOARD_SIZE.ROW))
     return (<FieldButton
       key={text}
       fieldId={text}
-      playerId={room.player1}
+      playerId={room.playerId}
       gameStatus={room.gameStatus}
       roomid={room.roomid}
     />);

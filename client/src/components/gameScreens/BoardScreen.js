@@ -49,9 +49,7 @@ BoardScreen.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  //fields: state.fields[props.roomid] || {}
-
-  fields: { A2: 'player1', B2: 'winner_player1' }
+  fields: state.rooms[props.roomid].fields || {}
 });
 
 export default connect(mapStateToProps)(BoardScreen);

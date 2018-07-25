@@ -10,27 +10,14 @@ export const showMessage = (roomid, message) => ({
 });
 
 
-const movePlayer = (roomid, playerId, id) => ({
+const movePlayer = (roomid, playerId, fieldId) => ({
   type: 'CHANGE_FIELD_STATUS',
   payload: {
-    id,
+    fieldId,
     roomid,
-    playerId
+    playerId,
   }
 });
-
-
-export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
-  const { fields } = getState().rooms[roomid];
-
-  if (!fields || (fields && !fields[fieldId])) {
-    dispatch(movePlayer(roomid, playerId, fieldId));
-    dispatch(showMessage(roomid, ''));
-  } else {
-    dispatch(showMessage(roomid, 'Field is not empty'));
-  }
-};
-
 
 export const waitForOpponent = roomid => ({
   type: 'CHANGE_GAME_STATUS',
@@ -39,6 +26,23 @@ export const waitForOpponent = roomid => ({
     roomid
   }
 });
+
+
+export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
+  const { fields } = getState().rooms[roomid];
+
+  let player = 'player1';
+  // if(getState().authorization.username === )
+
+  if (!fields || (fields && !fields[fieldId])) {
+    dispatch(movePlayer(roomid, playerId, fieldId));
+    dispatch(waitForOpponent(roomid));
+    dispatch(showMessage(roomid, ''));
+  } else {
+    dispatch(showMessage(roomid, 'Field is not empty'));
+  }
+};
+
 
 export const play = roomid => ({
   type: 'CHANGE_GAME_STATUS',

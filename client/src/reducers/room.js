@@ -2,8 +2,10 @@ import GAME_STATUS from '../constants/gameStatus';
 
 const defaultState = {
   roomid: null,
+  playerId: null,
   player1: null,
   player2: null,
+  fields: {},
   gameStatus: 'NEW',
   message: ''
 };
@@ -42,11 +44,23 @@ function getGameStatus(user, player1, player2, gameStatus) {
   return gs;
 }
 
-export default (state = defaultState, action) => {
+function getPlayerId(user, player1, player2) {
+  if (user === player1) return 'player1';
+  if (user === player2) return 'player2';
+  throw new Error();
+}
+
+export default (_state, action) => {
+  const state = _state || defaultState;
+
   switch (action.type) {
     case 'CHANGE_FIELD_STATUS':
       return {
         ...state,
+        fields: {
+          ...state.fields,
+          [action.payload.fieldId]: action.payload.playerId,
+        }
       };
     case 'CHANGE_GAME_STATUS':
       return {
@@ -62,7 +76,9 @@ export default (state = defaultState, action) => {
     case 'ADD_ROOM': {
       const { user, roomid, player1, player2, gameStatus } = action.payload;
       return {
+        ...state,
         roomid,
+        playerId: getPlayerId(user, player1, player2),
         player1,
         player2,
         gameStatus: getGameStatus(user, player1, player2, gameStatus),
