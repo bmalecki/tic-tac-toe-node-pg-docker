@@ -41,8 +41,18 @@ export const getUserRooms = user => (dispatch, getState) =>
       return res.json();
     }
     throw new Error();
-  }).then(body => body.forEach(room => dispatch(addRoom({
-    ...room,
-    gameStatus: room.game_status,
-    user: getState().authorization.username
-  }))));
+  }).then(body => body.forEach((room) => {
+    dispatch(addRoom({
+      ...room,
+      gameStatus: room.game_status,
+      user: getState().authorization.username
+    }))
+
+    const { socket } = getState();
+    socket.emit('JOIN_ROOM', {
+      sign: room.sign,
+      player: getState().authorization.username,
+      roomid: room.roomid,
+    }, () => { });
+
+  }));

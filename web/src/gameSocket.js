@@ -8,14 +8,14 @@ module.exports = (http) => {
     console.log('a user connected');
 
     socket.on('CREATE_ROOM', ({ player, sign, roomid }) => {
-      console.log(`${player} as '${sign}' creates room ${roomid}`);
+      console.log(`CREATE_ROOM: ${player} as '${sign}' creates room ${roomid}`);
       socket.join(roomid);
     });
 
     socket.on('JOIN_ROOM', async ({ player, sign, roomid }, fn) => {
       const room = await db.getRoom(roomid);
       socket.join(roomid);
-      console.log(`${player} as '${sign}' joins to room ${roomid}`);
+      console.log(`JOIN_ROOM: ${player} as '${sign}' joins to room ${roomid}`);
       io.in(roomid).emit('START_GAME', { ...room, gameStatus: room.game_status });
       fn();
     });
