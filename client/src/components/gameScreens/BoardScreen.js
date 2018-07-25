@@ -48,21 +48,10 @@ BoardScreen.propTypes = {
   fields: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
-const joinFieldAndPlayerSign = (fields, players) => {
-  if (!fields) {
-    return {};
-  }
-
-  return Object.assign(
-    {},
-    ...Object.keys(fields).map(k => ({ [k]: players[fields[k]].sign }))
-  );
-};
-
 const mapStateToProps = (state, props) => ({
   //fields: state.fields[props.roomid] || {}
 
-  fields: joinFieldAndPlayerSign(state.fields[props.roomid], state.players)
+  fields: { A2: 'player1', B2: 'winner_player1' }
 });
 
 export default connect(mapStateToProps)(BoardScreen);

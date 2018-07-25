@@ -21,7 +21,7 @@ const movePlayer = (roomid, playerId, id) => ({
 
 
 export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
-  const fields = getState().fields[roomid];
+  const { fields } = getState().rooms[roomid];
 
   if (!fields || (fields && !fields[fieldId])) {
     dispatch(movePlayer(roomid, playerId, fieldId));

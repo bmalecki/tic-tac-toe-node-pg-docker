@@ -30,7 +30,7 @@ export const requestAddNewRoom = sign => (dispatch, getState) => fetch(ROOMS_URI
     player1: sign === 'x' ? user : null,
     player2: sign === 'o' ? user : null,
     roomid: body.roomid,
-    gameStatus: 'new'
+    gameStatus: 'NEW'
   }));
 
   const { socket } = getState();

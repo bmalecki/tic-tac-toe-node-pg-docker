@@ -1,8 +1,10 @@
+import GAME_STATUS from '../constants/gameStatus';
+
 const defaultState = {
   roomid: null,
   player1: null,
   player2: null,
-  gameStatus: 'new',
+  gameStatus: 'NEW',
   message: ''
 };
 
@@ -18,8 +20,34 @@ function getMessage(user, player1, player2, gameStatus) {
   }
 }
 
+function getGameStatus(user, player1, player2, gameStatus) {
+  let gs = 'WRONG';
+
+  if (gameStatus === 'NEW') {
+    gs = GAME_STATUS.NEW;
+  }
+  if (gameStatus === 'move_player1' && user === player1) {
+    gs = GAME_STATUS.PLAYING;
+  }
+  if (gameStatus === 'move_player2' && user === player2) {
+    gs = GAME_STATUS.PLAYING;
+  }
+  if (gameStatus === 'move_player1' && user === player2) {
+    gs = GAME_STATUS.WAITING;
+  }
+  if (gameStatus === 'move_player2' && user === player1) {
+    gs = GAME_STATUS.WAITING;
+  }
+
+  return gs;
+}
+
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case 'CHANGE_FIELD_STATUS':
+      return {
+        ...state,
+      };
     case 'CHANGE_GAME_STATUS':
       return {
         ...state,
@@ -37,7 +65,7 @@ export default (state = defaultState, action) => {
         roomid,
         player1,
         player2,
-        gameStatus,
+        gameStatus: getGameStatus(user, player1, player2, gameStatus),
         message: getMessage(user, player1, player2, gameStatus),
       };
     }

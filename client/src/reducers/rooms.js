@@ -6,6 +6,7 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case 'SHOW_MESSAGE':
     case 'CHANGE_GAME_STATUS':
+    case 'CHANGE_FIELD_STATUS':
       return {
         ...state,
         [action.payload.roomid]: room(state[action.payload.roomid], action)

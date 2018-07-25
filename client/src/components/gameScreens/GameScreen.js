@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import Board from './BoardScreen';
 import BoardMessage from './BoardMessage';
 import GameButtons from '../buttons/GameButtons';
+import GAME_STATUS from '../../constants/gameStatus';
 
 const GameScreen = (room) => {
-  const gameScreen = ((room.gameStatus === 'move_player1')
-    || (room.gameStatus === 'move_player2'))
+  const gameScreen = ((room.gameStatus === GAME_STATUS.PLAYING)
+    || (room.gameStatus === GAME_STATUS.WAITING))
     && (
       <div>
         <Board text={`Room: ${room.roomid}`} roomid={room.roomid} />

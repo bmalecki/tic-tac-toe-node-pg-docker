@@ -70,7 +70,7 @@ const exportFunc = {
       if (sign === 'o' || sign === 'x') {
         const createQuery = s => `
         INSERT INTO rooms (${s}, game_status) 
-          SELECT CAST($1 AS VARCHAR), 'new' WHERE EXISTS 
+          SELECT CAST($1 AS VARCHAR), 'NEW' WHERE EXISTS 
             (SELECT * FROM users WHERE username=$1)
         RETURNING roomid`;
 
