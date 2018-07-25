@@ -1,4 +1,5 @@
 import { requestAvailable, addRoom } from './room';
+import { changeFieldStatus } from './game';
 
 export const initSocket = socket => (dispatch, getState) => {
   console.log('init socket');
@@ -12,6 +13,11 @@ export const initSocket = socket => (dispatch, getState) => {
       ...props,
       user: getState().authorization.username
     }));
+  });
+
+  socket.on('MOVE_OPPONET', (props) => {
+    console.log(props);
+    dispatch(changeFieldStatus(props));
   });
 
   dispatch({

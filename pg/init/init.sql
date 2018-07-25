@@ -10,7 +10,7 @@ CREATE TABLE rooms (
   player1          varchar(40),
   player2          varchar(40),
   game_status      varchar(40),
-  board            json
+  fields            json
 );
 
 INSERT INTO users VALUES 

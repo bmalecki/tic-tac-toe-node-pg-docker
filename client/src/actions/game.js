@@ -9,8 +9,7 @@ export const showMessage = (roomid, message) => ({
   }
 });
 
-
-const movePlayer = (roomid, playerId, fieldId) => ({
+export const changeFieldStatus = ({ roomid, playerId, fieldId }) => ({
   type: 'CHANGE_FIELD_STATUS',
   payload: {
     fieldId,
@@ -18,6 +17,17 @@ const movePlayer = (roomid, playerId, fieldId) => ({
     playerId,
   }
 });
+
+export const movePlayer = ({ roomid, playerId, fieldId }) => (dispatch, getState) => {
+  const { socket } = getState();
+  socket.emit('MOVE', {
+    fieldId,
+    roomid,
+    playerId,
+  });
+
+  dispatch(changeFieldStatus({ roomid, playerId, fieldId }));
+};
 
 export const waitForOpponent = roomid => ({
   type: 'CHANGE_GAME_STATUS',
@@ -32,7 +42,7 @@ export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
   const { fields } = getState().rooms[roomid];
 
   if (!fields || (fields && !fields[fieldId])) {
-    dispatch(movePlayer(roomid, playerId, fieldId));
+    dispatch(movePlayer({ roomid, playerId, fieldId }));
     dispatch(waitForOpponent(roomid));
     dispatch(showMessage(roomid, ''));
   } else {

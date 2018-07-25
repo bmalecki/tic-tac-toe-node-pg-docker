@@ -20,6 +20,11 @@ module.exports = (http) => {
       fn();
     });
 
+    socket.on('MOVE', async ({ fieldId, roomid, playerId }) => {
+      console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
+      socket.to(roomid).emit('MOVE_OPPONET', { fieldId, roomid, playerId });
+    });
+
 
     socket.on('destroy', () => {
       socket.disconnect(true);

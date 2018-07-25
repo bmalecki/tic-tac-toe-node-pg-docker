@@ -29,7 +29,7 @@ async function doQuery(query, parms) {
   });
 }
 
-const GET_ROOM_QUERY = 'SELECT roomid, player1, player2, game_status, board FROM rooms';
+const GET_ROOM_QUERY = 'SELECT roomid, player1, player2, game_status, fields FROM rooms';
 
 const exportFunc = {
   getUser: username =>
