@@ -69,8 +69,8 @@ const exportFunc = {
     (() => {
       if (sign === 'o' || sign === 'x') {
         const createQuery = s => `
-        INSERT INTO rooms (${s}, game_status) 
-          SELECT CAST($1 AS VARCHAR), 'NEW' WHERE EXISTS 
+        INSERT INTO rooms (${s}, game_status, fields) 
+          SELECT CAST($1 AS VARCHAR), 'NEW', '{}' WHERE EXISTS 
             (SELECT * FROM users WHERE username=$1)
         RETURNING roomid`;
 
@@ -116,6 +116,11 @@ const exportFunc = {
   getRoom: roomid =>
     doQuery(`${GET_ROOM_QUERY} WHERE roomid=$1`, [roomid])
       .then(result => result.rows[0]),
+
+  addFieldToRoom: (roomid, player, field) =>
+    doQuery(`UPDATE rooms SET fields = fields || $1
+      WHERE roomid = $2`, [{ [field]: player }, roomid])
+      .then(result => result),
 };
 
 module.exports = exportFunc;
