@@ -8,7 +8,7 @@ const Game = ({ room, match }) => {
   if (room !== undefined) {
     return (
       <div>
-        <h1>Tic tac toe</h1>
+        <h3>Tic tac toe</h3>
         <NewGameScreen {...room} />
         <GameScreen {...room} />
       </div>
