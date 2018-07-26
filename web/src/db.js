@@ -117,10 +117,18 @@ const exportFunc = {
     doQuery(`${GET_ROOM_QUERY} WHERE roomid=$1`, [roomid])
       .then(result => result.rows[0]),
 
-  addFieldToRoom: (roomid, player, field) =>
-    doQuery(`UPDATE rooms SET fields = fields || $1
-      WHERE roomid = $2`, [{ [field]: player }, roomid])
-      .then(result => result),
+  addFieldToRoom: (roomid, player, field) => {
+    let nextGameState;
+    if (player === 'player1') {
+      nextGameState = 'move_player2';
+    } else if (player === 'player2') {
+      nextGameState = 'move_player1';
+    }
+
+    return doQuery(`UPDATE rooms SET fields = fields || $1, game_status = $3
+      WHERE roomid = $2`, [{ [field]: player }, roomid, nextGameState])
+      .then(result => result);
+  },
 };
 
 module.exports = exportFunc;
