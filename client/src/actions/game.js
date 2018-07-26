@@ -33,7 +33,8 @@ export const waitForOpponent = roomid => ({
   type: 'CHANGE_GAME_STATUS',
   payload: {
     status: GAME_STATUS.WAITING,
-    roomid
+    roomid,
+    message: 'WAIT'
   }
 });
 
@@ -44,7 +45,6 @@ export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
   if (!fields || (fields && !fields[fieldId])) {
     dispatch(movePlayer({ roomid, playerId, fieldId }));
     dispatch(waitForOpponent(roomid));
-    dispatch(showMessage(roomid, ''));
   } else {
     dispatch(showMessage(roomid, 'Field is not empty'));
   }
@@ -55,7 +55,8 @@ export const play = roomid => ({
   type: 'CHANGE_GAME_STATUS',
   payload: {
     status: GAME_STATUS.PLAYING,
-    roomid
+    roomid,
+    message: 'PLAY'
   }
 });
 
