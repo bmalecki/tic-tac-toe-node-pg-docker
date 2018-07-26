@@ -46,7 +46,7 @@ export const getUserRooms = user => (dispatch, getState) =>
       ...room,
       gameStatus: room.game_status,
       user: getState().authorization.username
-    }))
+    }));
 
     const { socket } = getState();
     socket.emit('JOIN_ROOM', {
@@ -54,5 +54,4 @@ export const getUserRooms = user => (dispatch, getState) =>
       player: getState().authorization.username,
       roomid: room.roomid,
     }, () => { });
-
   }));

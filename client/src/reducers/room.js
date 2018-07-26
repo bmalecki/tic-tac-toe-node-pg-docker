@@ -74,13 +74,14 @@ export default (_state, action) => {
         message: action.payload.message
       };
     case 'ADD_ROOM': {
-      const { user, roomid, player1, player2, gameStatus } = action.payload;
+      const { user, roomid, player1, player2, gameStatus, fields } = action.payload;
       return {
         ...state,
         roomid,
         playerId: getPlayerId(user, player1, player2),
         player1,
         player2,
+        fields,
         gameStatus: getGameStatus(user, player1, player2, gameStatus),
         message: getMessage(user, player1, player2, gameStatus),
       };
