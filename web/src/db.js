@@ -144,7 +144,11 @@ const exportFunc = {
     }
 
     return doQuery(`UPDATE rooms SET game_status = $2, fields = fields || $3 WHERE roomid = $1`,
-      [roomid, status, fields])
+      [
+        roomid,
+        status,
+        Object.assign({}, ...(fields.map(f => ({ [f]: status }))))
+      ]);
   }
 };
 

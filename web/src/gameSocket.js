@@ -2,31 +2,37 @@ const socketIo = require('socket.io');
 const db = require('./db');
 
 function checkGameFields(fields) {
-  let winner = null, fields = {};
+  let winner = null, winnerFields = [];
 
   for (let i = 65; i <= 67; i += 1) {
-    const x = n => fields[`${String.fromCharCode(i)}${n}`];
+    const coord = (n) => `${String.fromCharCode(i)}${n}`;
+    const x = n => fields[coord(n)];
     if (x(1) && x(1) === x(2) && x(1) === x(3)) {
       winner = x(1);
+      winnerFields = [coord(1), coord(2), coord(3)];
     }
   }
 
   for (let i = 1; i <= 3; i += 1) {
-    const x = n => fields[`${n}${i}`];
+    const coord = (n) => `${n}${i}`;
+    const x = n => fields[coord(n)];
     if (x('A') && x('A') === x('B') && x('A') === x('C')) {
       winner = x('A');
+      winnerFields = [coord('A'), coord('B'), coord('C')];
     }
   }
 
   if (fields['A1'] && fields['A1'] === fields['B2'] && fields['A1'] === fields['C3']) {
     winner = fields['A1'];
+    winnerFields = ['A1', 'B2', 'C3'];
   }
 
   if (fields['A3'] && fields['A3'] === fields['B2'] && fields['A3'] === fields['C1']) {
     winner = fields['A3'];
+    winnerFields = ['A3', 'B2', 'C1'];
   }
 
-  return { winner };
+  return { winner, winnerFields };
 }
 
 
@@ -51,11 +57,11 @@ module.exports = (http) => {
 
     socket.on('MOVE', async ({ fieldId, roomid, playerId }) => {
       await db.addFieldToRoom(roomid, playerId, fieldId);
-      const { winner, fields } = checkGameFields(await db.getFieldsOfRoom(roomid));
+      const { winner, winnerFields } = checkGameFields(await db.getFieldsOfRoom(roomid));
 
       if (winner) {
         console.log(`MOVE: ${playerId} won in room ${roomid}`);
-        await db.changeGameStausToWinner(roomid, playerId)
+        await db.changeGameStausToWinner(roomid, playerId, winnerFields)
         io.to(roomid).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
