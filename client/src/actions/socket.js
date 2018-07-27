@@ -1,5 +1,6 @@
 import { requestAvailable, addRoom } from './room';
 import { changeFieldStatus, play } from './game';
+import { getUserRooms } from './init';
 
 export const initSocket = socket => (dispatch, getState) => {
   console.log('init socket');
@@ -11,6 +12,14 @@ export const initSocket = socket => (dispatch, getState) => {
   socket.on('START_GAME', (props) => {
     dispatch(addRoom({
       ...props,
+      user: getState().authorization.username
+    }));
+  });
+
+  socket.on('END_GAME', (props) => {
+    console.log('END Game')
+    //problem
+    dispatch(getUserRooms({
       user: getState().authorization.username
     }));
   });

@@ -62,7 +62,7 @@ module.exports = (http) => {
       if (winner) {
         console.log(`MOVE: ${playerId} won in room ${roomid}`);
         await db.changeGameStausToWinner(roomid, playerId, winnerFields)
-        io.to(roomid).emit('END_GAME', { winner });
+        io.in(roomid).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
         socket.to(roomid).emit('MOVE_OPPONET', { fieldId, roomid, playerId });
