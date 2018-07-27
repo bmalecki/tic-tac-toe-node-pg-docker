@@ -126,9 +126,11 @@ const exportFunc = {
     }
 
     return doQuery(`UPDATE rooms SET fields = fields || $1, game_status = $3
-      WHERE roomid = $2`, [{ [field]: player }, roomid, nextGameState])
-      .then(result => result);
+      WHERE roomid = $2`, [{ [field]: player }, roomid, nextGameState]);
   },
+
+  getFieldsOfRoom: roomid => doQuery('SELECT fields FROM rooms WHERE roomid = $1', [roomid])
+    .then(result => result.rows[0].fields),
 };
 
 module.exports = exportFunc;
