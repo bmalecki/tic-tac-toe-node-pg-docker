@@ -22,6 +22,7 @@ module.exports = (http) => {
 
     socket.on('MOVE', async ({ fieldId, roomid, playerId }) => {
       await db.addFieldToRoom(roomid, playerId, fieldId);
+      // await checkGameFields(roomid);
       console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
       socket.to(roomid).emit('MOVE_OPPONET', { fieldId, roomid, playerId });
     });
