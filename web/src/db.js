@@ -131,6 +131,21 @@ const exportFunc = {
 
   getFieldsOfRoom: roomid => doQuery('SELECT fields FROM rooms WHERE roomid = $1', [roomid])
     .then(result => result.rows[0].fields),
+
+  changeGameStausToWinner: (roomid, player, fields) => {
+    let status;
+
+    if (player === 'player1') {
+      status = 'winner_player1';
+    } else if (player === 'player2') {
+      status = 'winner_player2'
+    } else {
+      throw new Error('Wrong player');
+    }
+
+    return doQuery(`UPDATE rooms SET game_status = $2, fields = fields || $3 WHERE roomid = $1`,
+      [roomid, status, fields])
+  }
 };
 
 module.exports = exportFunc;

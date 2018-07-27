@@ -2,7 +2,7 @@ const socketIo = require('socket.io');
 const db = require('./db');
 
 function checkGameFields(fields) {
-  let winner = null;
+  let winner = null, fields = {};
 
   for (let i = 65; i <= 67; i += 1) {
     const x = n => fields[`${String.fromCharCode(i)}${n}`];
@@ -26,7 +26,7 @@ function checkGameFields(fields) {
     winner = fields['A3'];
   }
 
-  return winner;
+  return { winner };
 }
 
 
@@ -51,10 +51,11 @@ module.exports = (http) => {
 
     socket.on('MOVE', async ({ fieldId, roomid, playerId }) => {
       await db.addFieldToRoom(roomid, playerId, fieldId);
-      const winner = checkGameFields(await db.getFieldsOfRoom(roomid));
+      const { winner, fields } = checkGameFields(await db.getFieldsOfRoom(roomid));
 
       if (winner) {
         console.log(`MOVE: ${playerId} won in room ${roomid}`);
+        await db.changeGameStausToWinner(roomid, playerId)
         io.to(roomid).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
