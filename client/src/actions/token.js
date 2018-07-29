@@ -62,20 +62,11 @@ export const registerUser = (username, password) => (dispatch, getState) => fetc
     return res.json();
   }
 
-  throw new Error('Error');
+  loginSuccessed(null);
+  throw new Error('REGISTER ERROR');
 }).then(body => dispatch(loginSuccessed({
   token: body.token,
   username: body.username,
   status: true,
   failed: false
-})))
-  .then(() => {
-    console.log('login succ')
-
-    // window.location.href = '/';
-  })
-  .catch((message) => {
-    console.log(message)
-    // this.setState({ registerErrorMessage: message });
-    loginSuccessed(null);
-  });
+})));

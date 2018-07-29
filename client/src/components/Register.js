@@ -57,7 +57,8 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onRegister(this.state.username, this.state.password);
+    this.props.onRegister(this.state.username, this.state.password)
+      .catch(msg => this.setState({ registerErrorMessage: msg }));
   }
 
   render() {
