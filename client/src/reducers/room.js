@@ -44,10 +44,10 @@ function getGameStatus(user, player1, player2, gameStatus) {
     gs = GAME_STATUS.WAITING;
   }
   if (gameStatus === 'winner_player1' || gameStatus === 'winner_player2') {
-    gs = GAME_STATUS.WAITING;
+    gs = GAME_STATUS.END;
   }
   if (gameStatus === 'tie') {
-    gs = GAME_STATUS.WAITING;
+    gs = GAME_STATUS.END;
   }
 
   return gs;

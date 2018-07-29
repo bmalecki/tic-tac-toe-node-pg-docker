@@ -23,6 +23,7 @@ const getClickAction = ({ fieldId, gameStatus, roomid, playerId }) => {
   switch (gameStatus) {
     case GAME_STATUS.WAITING: return showMessage(roomid, 'Waiting for opponent');
     case GAME_STATUS.PLAYING: return move(roomid, playerId, fieldId);
+    case GAME_STATUS.END: return () => {};
     default: throw new Error('Unknow game status');
   }
 };

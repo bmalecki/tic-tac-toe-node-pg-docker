@@ -7,7 +7,8 @@ import GAME_STATUS from '../../constants/gameStatus';
 
 const GameScreen = (room) => {
   const gameScreen = ((room.gameStatus === GAME_STATUS.PLAYING)
-    || (room.gameStatus === GAME_STATUS.WAITING))
+    || (room.gameStatus === GAME_STATUS.WAITING)
+    || (room.gameStatus === GAME_STATUS.END))
     && (
       <div>
         <BoardMessage text={room.message} />
