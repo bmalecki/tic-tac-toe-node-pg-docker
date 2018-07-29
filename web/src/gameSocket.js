@@ -33,6 +33,10 @@ function checkGameFields(fields) {
     winnerFields = ['A3', 'B2', 'C1'];
   }
 
+  if (Object.keys(fields).length === 9 && winner === null) {
+    winner = 'tie';
+  }
+
   return { winner, winnerFields };
 }
 
@@ -66,9 +70,13 @@ module.exports = (http) => {
       await db.addFieldToRoom(roomid, playerId, fieldId);
       const { winner, winnerFields } = checkGameFields(await db.getFieldsOfRoom(roomid));
 
-      if (winner) {
+      if (winner && winner !== 'tie') {
         console.log(`MOVE: ${playerId} won in room ${roomid}`);
         await db.changeGameStausToWinner(roomid, playerId, winnerFields)
+        io.in(`room_${roomid}`).emit('END_GAME', { winner });
+      } else if (winner === 'tie') {
+        console.log(`MOVE: tie in room ${roomid}`);
+        await db.changeGameStausToTie(roomid)
         io.in(`room_${roomid}`).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);

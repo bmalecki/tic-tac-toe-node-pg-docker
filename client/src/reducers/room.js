@@ -18,8 +18,9 @@ function getMessage(user, player1, player2, gameStatus) {
   switch (gameStatus) {
     case 'move_player1': return message(player1);
     case 'move_player2': return message(player2);
-    case 'winner_player1':  return "Winner player 1";
-    case 'winner_player2':  return "Winner player 2";
+    case 'winner_player1': return 'Winner player 1';
+    case 'winner_player2': return 'Winner player 2';
+    case 'tie': return 'Tie';
     default: return 'error';
   }
 }
@@ -43,7 +44,10 @@ function getGameStatus(user, player1, player2, gameStatus) {
     gs = GAME_STATUS.WAITING;
   }
   if (gameStatus === 'winner_player1' || gameStatus === 'winner_player2') {
-    gs = GAME_STATUS.WAITING;    
+    gs = GAME_STATUS.WAITING;
+  }
+  if (gameStatus === 'tie') {
+    gs = GAME_STATUS.WAITING;
   }
 
   return gs;
