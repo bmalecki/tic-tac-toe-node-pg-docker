@@ -8,7 +8,7 @@ const OFFSET = 10;
 function clear({ ctx, width, height }) {
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = 'rgba(0, 50, 50, 1)';
+  ctx.fillStyle = 'rgba(200, 200, 200, 1)';
   ctx.fillRect(0, 0, width, height);
 }
 
