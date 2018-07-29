@@ -43,16 +43,22 @@ module.exports = (http) => {
   io.on('connection', (socket) => {
     console.log('a user connected');
 
+    socket.on('INIT', ({ user }) => {
+      console.log(`INIT: init user: ${user}`);
+      socket.join(`user_${user}`);
+    });
+
     socket.on('CREATE_ROOM', ({ player, sign, roomid }) => {
       console.log(`CREATE_ROOM: ${player} as '${sign}' creates room ${roomid}`);
-      socket.join(roomid);
+      socket.join(`room_${roomid}`);
+      socket.in(`user_${player}`).emit('USER_CREATED_ROOM');
     });
 
     socket.on('JOIN_ROOM', async ({ player, sign, roomid }, fn) => {
       const room = await db.getRoom(roomid);
-      socket.join(roomid);
+      socket.join(`room_${roomid}`);
       console.log(`JOIN_ROOM: ${player} as '${sign}' joins to room ${roomid}`);
-      io.in(roomid).emit('START_GAME', { ...room, gameStatus: room.game_status });
+      io.in(`room_${roomid}`).emit('START_GAME', { ...room, gameStatus: room.game_status });
       fn();
     });
 
@@ -63,10 +69,10 @@ module.exports = (http) => {
       if (winner) {
         console.log(`MOVE: ${playerId} won in room ${roomid}`);
         await db.changeGameStausToWinner(roomid, playerId, winnerFields)
-        io.in(roomid).emit('END_GAME', { winner });
+        io.in(`room_${roomid}`).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
-        socket.to(roomid).emit('MOVE_OPPONENT', { fieldId, roomid, playerId });
+        socket.to(`room_${roomid}`).emit('MOVE_OPPONENT', { fieldId, roomid, playerId });
       }
     });
 
