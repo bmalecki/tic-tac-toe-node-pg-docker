@@ -41,6 +41,14 @@ Run psql
 
     docker-compose exec --user postgres pg  psql -U node -d app -f /docker-entrypoint-initdb.d/init.sql
 
+backup
+
+    (docker-compose exec pg pg_dump --clean -U node -t rooms app) > pg/workspace/app.sql
+
+restore 
+
+    docker-compose exec pg psql -U node -d app -f /home/app.sql 
+
 
 ### C. Web module ###
 
