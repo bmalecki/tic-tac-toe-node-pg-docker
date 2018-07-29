@@ -18,16 +18,6 @@ export const changeFieldStatus = ({ roomid, playerId, fieldId }) => ({
   }
 });
 
-export const movePlayer = ({ roomid, playerId, fieldId }) => (dispatch, getState) => {
-  const { socket } = getState();
-  socket.emit('MOVE', {
-    fieldId,
-    roomid,
-    playerId,
-  });
-
-  dispatch(changeFieldStatus({ roomid, playerId, fieldId }));
-};
 
 export const waitForOpponent = roomid => ({
   type: 'CHANGE_GAME_STATUS',
@@ -43,7 +33,14 @@ export const move = (roomid, playerId, fieldId) => (dispatch, getState) => {
   const { fields } = getState().rooms[roomid];
 
   if (!fields || (fields && !fields[fieldId])) {
-    dispatch(movePlayer({ roomid, playerId, fieldId }));
+    const { socket } = getState();
+    socket.emit('MOVE', {
+      fieldId,
+      roomid,
+      playerId,
+    });
+
+    dispatch(changeFieldStatus({ roomid, playerId, fieldId }));
     dispatch(waitForOpponent(roomid));
   } else {
     dispatch(showMessage(roomid, 'Field is not empty'));

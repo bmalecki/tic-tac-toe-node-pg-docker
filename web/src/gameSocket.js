@@ -65,7 +65,7 @@ module.exports = (http) => {
         io.in(roomid).emit('END_GAME', { winner });
       } else {
         console.log(`MOVE: ${playerId} move in room ${roomid} field: ${fieldId}`);
-        socket.to(roomid).emit('MOVE_OPPONET', { fieldId, roomid, playerId });
+        socket.to(roomid).emit('MOVE_OPPONENT', { fieldId, roomid, playerId });
       }
     });
 

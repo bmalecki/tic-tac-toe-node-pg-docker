@@ -1,5 +1,5 @@
 import { requestAvailable, addRoom } from './room';
-import { changeFieldStatus, play } from './game';
+import { changeFieldStatus, play, waitForOpponent } from './game';
 import { getUserRooms } from './init';
 
 export const initSocket = socket => (dispatch, getState) => {
@@ -21,10 +21,18 @@ export const initSocket = socket => (dispatch, getState) => {
     dispatch(getUserRooms(username));
   });
 
-  socket.on('MOVE_OPPONET', (props) => {
-    console.log(props);
-    dispatch(changeFieldStatus(props));
-    dispatch(play(props.roomid));
+  socket.on('MOVE_OPPONENT', ({ roomid, playerId, fieldId }) => {
+    const state = getState();
+
+    const currentUser = state.authorization.username;
+    const movingUser = state.rooms[roomid][playerId];
+    dispatch(changeFieldStatus({ roomid, playerId, fieldId }));
+
+    if (currentUser !== movingUser) {
+      dispatch(play(roomid));
+    } else {
+      dispatch(waitForOpponent(roomid));
+    }
   });
 
   dispatch({
