@@ -19,7 +19,7 @@ const io = gameSocket(http);
 
 app
   .use(cors())
-  // .use(logger())
+  .use(logger())
   .use(serve('/usr/static'))
   .use(errorPages)
   .use(bodyParser())

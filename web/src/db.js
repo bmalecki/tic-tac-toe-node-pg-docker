@@ -138,7 +138,7 @@ const exportFunc = {
     if (player === 'player1') {
       status = 'winner_player1';
     } else if (player === 'player2') {
-      status = 'winner_player2'
+      status = 'winner_player2';
     } else {
       throw new Error('Wrong player');
     }
