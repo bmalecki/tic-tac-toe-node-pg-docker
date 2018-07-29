@@ -72,7 +72,7 @@ ALTER TABLE ONLY public.rooms ALTER COLUMN roomid SET DEFAULT nextval('public.ro
 --
 
 COPY public.rooms (roomid, player1, player2, game_status, fields) FROM stdin;
-1	\N	asdf	NEW	{}
+1	asdf	bartek	move_player1	{"A1": "player1", "A2": "player1", "C1": "player2", "C3": "player2"}
 \.
 
 

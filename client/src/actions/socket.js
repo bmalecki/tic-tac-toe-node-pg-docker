@@ -16,12 +16,9 @@ export const initSocket = socket => (dispatch, getState) => {
     }));
   });
 
-  socket.on('END_GAME', (props) => {
-    console.log('END Game')
-    //problem
-    dispatch(getUserRooms({
-      user: getState().authorization.username
-    }));
+  socket.on('END_GAME', () => {
+    const { username } = getState().authorization;
+    dispatch(getUserRooms(username));
   });
 
   socket.on('MOVE_OPPONET', (props) => {
