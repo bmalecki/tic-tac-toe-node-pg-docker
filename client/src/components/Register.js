@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginSuccessed } from '../actions/token';
+import { registerUser } from '../actions/token';
 
 import '../styles/Form.css';
 
-const URI = 'http://localhost:8080/users';
 
 class Register extends React.Component {
   constructor(props) {
@@ -21,7 +20,7 @@ class Register extends React.Component {
   }
 
   getRegisterForm() {
-    const errorMessage = this.state.registerErrorMessage !== null && <h3 className="error">User exists</h3>;
+    const errorMessage = this.state.registerErrorMessage !== null && <h3 className="error">Register error</h3>;
 
     return (
       <div className="login">
@@ -58,29 +57,7 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    fetch(URI, {
-      body: JSON.stringify(this.state),
-      cache: 'no-cache',
-      headers: {
-        'content-type': 'application/json'
-      },
-      method: 'POST',
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          return res.json();
-        }
-
-        throw new Error('Error');
-      })
-      .then((body) => {
-        this.props.onLoginSuccessed(true, body.token);
-      })
-      .catch((message) => {
-        this.setState({ registerErrorMessage: message });
-        this.props.onLoginSuccessed(false, null);
-      });
+    this.props.onRegister(this.state.username, this.state.password);
   }
 
   render() {
@@ -96,7 +73,7 @@ class Register extends React.Component {
 
 Register.propTypes = {
   showForm: PropTypes.bool.isRequired,
-  onLoginSuccessed: PropTypes.func.isRequired,
+  onRegister: PropTypes.func.isRequired,
 };
 
 
@@ -105,8 +82,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLoginSuccessed: (status, token) => dispatch(loginSuccessed(status, token))
-
+  onRegister: (username, password) => dispatch(registerUser(username, password))
 });
 
 

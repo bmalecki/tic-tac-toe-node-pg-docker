@@ -39,6 +39,7 @@ const users = {
         if (result) {
           ctx.status = 201;
           ctx.body = {
+            username,
             token: jwt.sign({
               username,
             }, secret, { expiresIn: '3h' }),

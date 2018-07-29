@@ -4,7 +4,7 @@ import { getUserRooms } from './init';
 import { initSocket, destroySocket } from './socket';
 
 const SOCKET_URI = 'http://localhost:8080';
-
+const URI = 'http://localhost:8080/users';
 
 export const updateToken = token => (dispatch, getState) => {
   if (token !== null) {
@@ -21,6 +21,7 @@ export const updateToken = token => (dispatch, getState) => {
 };
 
 export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
+
   dispatch({
     type: 'LOGIN_SUCCESSED',
     payload: {
@@ -30,7 +31,7 @@ export const loginSuccessed = ({ token, ...props }) => (dispatch, getState) => {
   dispatch(updateToken(token));
   if (props.username) {
     dispatch(initSocket(io(SOCKET_URI)));
-    dispatch(getUserRooms(props.username));
+    return dispatch(getUserRooms(props.username));
   }
 };
 
@@ -46,3 +47,35 @@ export const logout = () => (dispatch, getState) => {
   dispatch(clearRooms());
 };
 
+export const registerUser = (username, password) => (dispatch, getState) => fetch(URI, {
+  body: JSON.stringify({
+    username,
+    password
+  }),
+  cache: 'no-cache',
+  headers: {
+    'content-type': 'application/json'
+  },
+  method: 'POST',
+}).then((res) => {
+  if (res.status === 201) {
+    return res.json();
+  }
+
+  throw new Error('Error');
+}).then(body => dispatch(loginSuccessed({
+  token: body.token,
+  username: body.username,
+  status: true,
+  failed: false
+})))
+  .then(() => {
+    console.log('login succ')
+
+    // window.location.href = '/';
+  })
+  .catch((message) => {
+    console.log(message)
+    // this.setState({ registerErrorMessage: message });
+    loginSuccessed(null);
+  });
