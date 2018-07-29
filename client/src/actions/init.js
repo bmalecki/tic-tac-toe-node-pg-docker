@@ -1,7 +1,7 @@
 import { loginSuccessed, logout } from './token';
 import { addRoom } from './room';
+import ROOT_URI from '../constants/uri';
 
-const ROOT_URI = 'http://localhost:8080';
 const USER_URI = `${ROOT_URI}/user`;
 const USER_ROOMS_URI = username => `${ROOT_URI}/users/${username}/rooms`;
 

@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import ROOT_URI from '../constants/uri';
 
 import '../styles/Form.css';
 
-const URI = 'http://localhost:8080/login';
+const URI = `${ROOT_URI}/login`;
 
 class Login extends React.Component {
   constructor(props) {

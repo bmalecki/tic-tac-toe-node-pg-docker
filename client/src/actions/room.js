@@ -1,4 +1,5 @@
-const ROOT_URI = 'http://localhost:8080';
+import ROOT_URI from '../constants/uri';
+
 const ROOMS_URI = `${ROOT_URI}/rooms`;
 
 

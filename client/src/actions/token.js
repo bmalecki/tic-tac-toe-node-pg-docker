@@ -2,9 +2,11 @@ import io from 'socket.io-client';
 import { clearRooms } from './room';
 import { getUserRooms } from './init';
 import { initSocket, destroySocket } from './socket';
+import ROOT_URI from '../constants/uri';
 
-const SOCKET_URI = 'http://localhost:8080';
-const URI = 'http://localhost:8080/users';
+
+const SOCKET_URI = ROOT_URI;
+const URI = `${ROOT_URI}/users`;
 
 export const updateToken = token => (dispatch, getState) => {
   if (token !== null) {
