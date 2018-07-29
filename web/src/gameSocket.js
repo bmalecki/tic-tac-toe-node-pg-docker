@@ -2,10 +2,11 @@ const socketIo = require('socket.io');
 const db = require('./db');
 
 function checkGameFields(fields) {
-  let winner = null, winnerFields = [];
+  let winner = null;
+  let winnerFields = [];
 
   for (let i = 65; i <= 67; i += 1) {
-    const coord = (n) => `${String.fromCharCode(i)}${n}`;
+    const coord = n => `${String.fromCharCode(i)}${n}`;
     const x = n => fields[coord(n)];
     if (x(1) && x(1) === x(2) && x(1) === x(3)) {
       winner = x(1);
@@ -14,7 +15,7 @@ function checkGameFields(fields) {
   }
 
   for (let i = 1; i <= 3; i += 1) {
-    const coord = (n) => `${n}${i}`;
+    const coord = n => `${n}${i}`;
     const x = n => fields[coord(n)];
     if (x('A') && x('A') === x('B') && x('A') === x('C')) {
       winner = x('A');
@@ -22,13 +23,13 @@ function checkGameFields(fields) {
     }
   }
 
-  if (fields['A1'] && fields['A1'] === fields['B2'] && fields['A1'] === fields['C3']) {
-    winner = fields['A1'];
+  if (fields.A1 && fields.A1 === fields.B2 && fields.A1 === fields.C3) {
+    winner = fields.A1;
     winnerFields = ['A1', 'B2', 'C3'];
   }
 
-  if (fields['A3'] && fields['A3'] === fields['B2'] && fields['A3'] === fields['C1']) {
-    winner = fields['A3'];
+  if (fields.A3 && fields.A3 === fields.B2 && fields.A3 === fields.C1) {
+    winner = fields.A3;
     winnerFields = ['A3', 'B2', 'C1'];
   }
 

@@ -3,8 +3,6 @@ import { changeFieldStatus, play, waitForOpponent } from './game';
 import { getUserRooms } from './init';
 
 export const initSocket = socket => (dispatch, getState) => {
-  console.log('init socket');
-
   socket.on('ROOM_ADDED', () => {
     dispatch(requestAvailable());
   });
